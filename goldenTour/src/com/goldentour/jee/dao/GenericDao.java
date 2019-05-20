@@ -2,8 +2,8 @@ package com.goldentour.jee.dao;
 
 import java.io.Serializable;
 
-public interface GenericDao<t> {
+public interface GenericDao<T> {
 	
-	public Object findById(Class clazz, Serializable id);
+	public Object findById(Serializable id);
 
 }

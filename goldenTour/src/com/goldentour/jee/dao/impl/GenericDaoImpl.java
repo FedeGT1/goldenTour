@@ -8,9 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.goldentour.jee.dao.GenericDao;
-import com.goldentour.jee.utils.JpaUtils;
+import org.springframework.stereotype.Repository;
 
+import com.goldentour.jee.dao.GenericDao;
+
+@Repository
 public class GenericDaoImpl<T> implements GenericDao<T> {
 	
 	@PersistenceContext
@@ -28,9 +30,9 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	}
 
 	@Override
-	public Object findById(Class clazz, Serializable id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object findById(Serializable id) {
+		Object obj = em.find(type, id);
+		return obj;
 	}
 	
 	

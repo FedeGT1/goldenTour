@@ -1,5 +1,7 @@
 package com.goldentour.jee.dao;
 
-public interface UserDao extends GenericDao {
+import com.goldentour.jee.entities.UserVO;
+
+public interface UserDao extends GenericDao<UserVO> {
 
 }

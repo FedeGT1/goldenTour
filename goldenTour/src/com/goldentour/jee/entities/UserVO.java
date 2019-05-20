@@ -20,7 +20,10 @@ import javax.persistence.TemporalType;
 
 public class UserVO {
 
-	private Long ID;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private Long id;
 	private String username;
 	private String password;
 	private String name;
@@ -32,15 +35,12 @@ public class UserVO {
 	private String birthPlace;
 	private RoleVO role;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID", nullable = false, columnDefinition = "integer")
-	public Long getID() {
-		return ID;
+	public Long getId() {
+		return id;
 	}
 
-	public void setID(Long iD) {
-		ID = iD;
+	public void setId(Long iD) {
+		id = iD;
 	}
 	@Column(name="USERNAME",length=45,nullable=false)
 	public String getUsername() {
@@ -95,8 +95,8 @@ public class UserVO {
 		this.city = city;
 	}
 
-	@JoinColumn(name="ID")
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id")
 	public RoleVO getRole() {
 		return role;
 	}
@@ -138,7 +138,7 @@ public class UserVO {
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
 		UserVO tmp = (UserVO) obj;
-		if (!ID.equals(tmp.ID))
+		if (!id.equals(tmp.id))
 		return false;
 	return true;
 	}
