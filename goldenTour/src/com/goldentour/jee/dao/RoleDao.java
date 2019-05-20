@@ -1,7 +1,5 @@
 package com.goldentour.jee.dao;
 
-public class RoleDao extends MasterDao {
-	
-
+public interface RoleDao extends GenericDao {
 
 }

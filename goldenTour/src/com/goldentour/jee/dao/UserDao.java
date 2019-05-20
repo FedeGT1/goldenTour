@@ -1,7 +1,5 @@
 package com.goldentour.jee.dao;
 
-public class UserDao extends MasterDao {
-	
-
+public interface UserDao extends GenericDao {
 
 }

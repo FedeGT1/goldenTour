@@ -1,4 +1,4 @@
-package com.goldentour.jee.vo;
+package com.goldentour.jee.entities;
 
 import java.util.Date;
 
