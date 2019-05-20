@@ -34,17 +34,5 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 		Object obj = em.find(type, id);
 		return obj;
 	}
-	
-	
-	
-	/*public Object findById(Class clazz, Serializable id) {
-		
-		EntityManager em = JpaUtils.getInstance().getEntityManager();
-		Object obj = em.find(clazz, id);
-		
-		em.close();
-		
-		return obj;
-	}*/
 
 }

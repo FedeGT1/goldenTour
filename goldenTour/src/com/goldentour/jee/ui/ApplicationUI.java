@@ -16,7 +16,6 @@ public class ApplicationUI {
 			// Caricamento del contesto e lettura delle configurazioni.
 			context = new AnnotationConfigApplicationContext(ConfigurationBean.class);
 			
-//			context.get
 		
 		} catch (Exception e) {
 			e.printStackTrace();

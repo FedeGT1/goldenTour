@@ -24,7 +24,7 @@ import com.goldentour.jee.utils.ConfigBean;
 @PropertySources({ @PropertySource("classpath:database.properties")})
 public class ConfigurationBean {
 	
-	/* Parametri connessione database. 
+	/* Parametri connessione database. */
 	@Value("${database.url}")
 	private String databaseUrl;
 	
@@ -45,7 +45,7 @@ public class ConfigurationBean {
 
 	@Value("${hibernate.dialect}")
 	private String databaseDialect;
-	 * */
+	 
 
 	@Bean
 	public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
@@ -70,6 +70,17 @@ public class ConfigurationBean {
 		em.setJpaProperties(additionalProperties());
 
 		return em;
+	}
+	
+	@Bean(name = "datasource")
+	public ConfigBean getDatabaseConfigurationBean() {
+		ConfigBean datasource = new ConfigBean();
+		datasource.setDatabaseDriver(databaseDriverClassName);
+		datasource.setDatabasePassword(databasePassword);
+		datasource.setDatabaseUsername(databaseUsername);
+		datasource.setDatabaseUrl(databaseUrl);
+		datasource.setPesistenceUnitName(persistenceUnitName);
+		return datasource;
 	}
 	
 	/**
