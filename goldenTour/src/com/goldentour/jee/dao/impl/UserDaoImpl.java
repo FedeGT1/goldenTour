@@ -37,10 +37,4 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 		return users;
 	}
 
-	@Override
-	public Object findById(Serializable id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
