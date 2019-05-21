@@ -15,10 +15,6 @@ public interface GenericDao<T>  {
 	
 	T update(T t);
 	
-	List<T> findAll();
-	
 	EntityManager getEntityManager();
 	
-	public Object findById(Serializable id);
-
 }
