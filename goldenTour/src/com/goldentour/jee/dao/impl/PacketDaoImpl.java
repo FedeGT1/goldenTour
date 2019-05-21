@@ -1,5 +1,8 @@
 package com.goldentour.jee.dao.impl;
 
-public class PacketDaoImpl {
+import com.goldentour.jee.dao.PacketDao;
+import com.goldentour.jee.entities.Packet;
+
+public class PacketDaoImpl  extends GenericDaoImpl<Packet> implements PacketDao{
 
 }
