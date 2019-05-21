@@ -20,8 +20,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.goldentour.jee.utils.ConfigBean;
-
 
 @Configuration("configBean")
 @EnableTransactionManagement
@@ -74,17 +72,6 @@ public class ConfigurationBean {
 		em.setJpaProperties(additionalProperties());
 
 		return em;
-	}
-	
-	@Bean(name = "datasource")
-	public ConfigBean getDatabaseConfigurationBean() {
-		ConfigBean datasource = new ConfigBean();
-		datasource.setDatabaseDriver(databaseDriverClassName);
-		datasource.setDatabasePassword(databasePassword);
-		datasource.setDatabaseUsername(databaseUsername);
-		datasource.setDatabaseUrl(databaseUrl);
-		datasource.setPesistenceUnitName(persistenceUnitName);
-		return datasource;
 	}
 	
 	/**

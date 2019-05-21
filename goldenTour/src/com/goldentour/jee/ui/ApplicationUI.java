@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 
 import com.goldentour.jee.config.ConfigurationBean;
+import com.goldentour.jee.config.CustomServletInitializer;
 
 public class ApplicationUI {
 	
@@ -14,6 +15,7 @@ public class ApplicationUI {
 		try {
 
 			// Caricamento del contesto e lettura delle configurazioni.
+//			context = new AnnotationConfigApplicationContext(CustomServletInitializer.class);
 			context = new AnnotationConfigApplicationContext(ConfigurationBean.class);
 			
 		
