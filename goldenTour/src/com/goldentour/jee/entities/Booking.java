@@ -16,8 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "packet")
-public class Packet implements Serializable {
+@Table(name = "booking")
+public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,11 @@ public class Packet implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
-	private Accomodation idUser;
+	private User idUser;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_user")
+	private User idTourOperator;
 	
 	public Long getId() {
 		return id;
@@ -120,20 +124,28 @@ public class Packet implements Serializable {
 		this.idAccomodation = idAccomodation;
 	}
 	
-	public Accomodation getIdUser() {
+	public User getIdUser() {
 		return idUser;
 	}
 	
-	public void setIdUser(Accomodation idUser) {
+	public void setIdUser(User idUser) {
 		this.idUser = idUser;
 	}
 	
+	public User getIdTourOperator() {
+		return idTourOperator;
+	}
+
+	public void setIdTourOperator(User idTourOperator) {
+		this.idTourOperator = idTourOperator;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
-		Packet  tmp = (Packet) obj;
+		Booking  tmp = (Booking) obj;
 		if (!id.equals(tmp.getId()))
 		return false;
 	return true;
