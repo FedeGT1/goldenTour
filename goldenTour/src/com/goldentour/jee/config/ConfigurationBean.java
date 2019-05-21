@@ -2,6 +2,7 @@ package com.goldentour.jee.config;
 
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,16 +13,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.goldentour.jee.utils.ConfigBean;
 
 
 @Configuration("configBean")
-@ComponentScan(basePackages = {"com.goldentour.jee.*"})
-@PropertySources({ @PropertySource("classpath:database.properties")})
+@EnableTransactionManagement
+@PropertySources({ @PropertySource("classpath:/spring/database.properties")})
 public class ConfigurationBean {
 	
 	/* Parametri connessione database. */
@@ -102,6 +106,13 @@ public class ConfigurationBean {
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect");
 		properties.setProperty("hibernate.show_sql", "true");
 		return properties;
+	}
+	
+	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+		JpaTransactionManager trxManager = new JpaTransactionManager();
+		trxManager.setEntityManagerFactory(emf);
+		return trxManager;
 	}
 
 }

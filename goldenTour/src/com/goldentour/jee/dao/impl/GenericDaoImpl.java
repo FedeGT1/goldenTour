@@ -20,7 +20,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	
 	private Class<T> type;
 	
-	@PostConstruct
+	//@PostConstruct
 	public void init() {
 		
 		Type t = getClass().getGenericSuperclass();
