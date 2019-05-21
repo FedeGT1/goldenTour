@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `role` (
-  `idrole` int(11) NOT NULL,
-  `rolename` varchar(45) NOT NULL
+  `id_role` int(11) NOT NULL,
+  `role_name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -40,7 +40,7 @@ CREATE TABLE `role` (
 --
 
 CREATE TABLE `user` (
-  `iduser` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `user` (
   `birthday` datetime NOT NULL,
   `birthplace` varchar(45) NOT NULL,
   `cap` int(11) NOT NULL,
-  `idrole` int(11) NOT NULL
+  `id_role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
