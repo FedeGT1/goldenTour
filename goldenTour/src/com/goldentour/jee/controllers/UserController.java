@@ -16,51 +16,80 @@ import com.goldentour.jee.viewBeans.UserViewBean;
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserService userService;
-
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
-        System.out.println("Fetching user with id:" + id);
-        User user;
-        try {
-            user = userService.findByID();
-            if (user == null) {
-                System.out.println("User with id:" + id + "not found");
-                return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<User>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/login/", method = RequestMethod.POST)
-    public ResponseEntity<UserViewBean> authorize(@RequestBody UserViewBean userViewBean) {
-        try {
-            userViewBean = userService.authorize(userViewBean.getUsername(), userViewBean.getPassword());
-            if (userViewBean != null) return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.ACCEPTED);
-            else return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.NOT_FOUND);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<UserViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
+	@Autowired
+	private UserService userService;
 
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ResponseEntity<User> saveUser() {
-    	//TODO
+
+
+	//--------------Visualizza Anagrafica utente----------------------------------------------------------
+	@RequestMapping(value = "/dashboard/user/{idUser}", method = RequestMethod.GET)
+	public ResponseEntity<User> getUser(@PathVariable("idUser") int idUser) {
+		User user;
+		try {
+			user = userService.find(idUser);
+			if (user == null) {
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	//--------------Modifica Anagrafica utente----------------------------------------------------------
+	@RequestMapping(value = "/dashboard/user/{idUser}/update", method = RequestMethod.PUT)
+	public ResponseEntity<User> updateUser(@PathVariable("idUser") int idUser, @RequestBody User user){
+		User currentUser;
+		try {
+			currentUser = userService.find(idUser);
+			if (currentUser==null) {
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			}
+
+			currentUser.setName(user.getName());
+			currentUser.setLastname(user.getLastname());
+			currentUser.setAddress(user.getAddress());
+			currentUser.setCity(user.getCity());
+			currentUser.setBirthday(user.getBirthday());
+			currentUser.setBirthplace(user.getBirthplace());
+			currentUser.setCap(user.getCap());
+
+
+			userService.update(currentUser);
+			return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@RequestMapping(value = "/login/", method = RequestMethod.POST)
+	public ResponseEntity<UserViewBean> authorize(@RequestBody UserViewBean userViewBean) {
+		try {
+			userViewBean = userService.authorize(userViewBean.getUsername(), userViewBean.getPassword());
+			if (userViewBean != null) return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.ACCEPTED);
+			else return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<UserViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public ResponseEntity<User> saveUser() {
+		//TODO
 		return null;
 
-    }
+	}
 
 }
 
 
 
 
-    

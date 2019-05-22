@@ -36,10 +36,47 @@ public class BookingController {
 	@Autowired
 	private AccomodationService accomodationServices;
 
+
+	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
+	@RequestMapping(value = "/dashboard/user/{idUser}/booking", method = RequestMethod.GET)
+	public ResponseEntity<Booking> getBooking(@PathVariable("idUser") int idUser) {
+		Booking booking;
+
+		try {		
+			booking = bookingService.find(idUser);
+			if (booking == null) {
+				//stampare messaggio in front "utente non ha prenotazioni"
+				return new ResponseEntity<Booking>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Booking>(booking, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	//--------------Ritorna tutte le prenotazioni del tour operator selezionato--------------------------
+	@RequestMapping(value = "/dashboard/to/{idUser}/booking", method = RequestMethod.GET)
+	public ResponseEntity<List<Booking>> ListAllTOBooking(@PathVariable("idUser") int idUser) {
+		List<Booking> bookingList;
+
+		try {		
+			bookingList = bookingService.findAllBooking(idUser);
+			if (bookingList == null) {
+				//stampare messaggio in front "tour operator non ha prenotazioni"
+				return new ResponseEntity<List<Booking>>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<List<Booking>>(bookingList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<Booking>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	/**
 	 * Metodo chiamato all'invocazione della creazione di una prenotazione
 	 * 
-	 * @return la lista delle località disponibili per le prenotazioni
+	 * @return la lista delle localitï¿½ disponibili per le prenotazioni
 	 */
 	@RequestMapping(value = "/create/", method = RequestMethod.GET)
 	public ResponseEntity<List<Destination>> AllAvaibleDestination() {
@@ -58,11 +95,11 @@ public class BookingController {
 	}// end CreateBooking
 
 	/**
-	 * Funzione che selezionata una località torna le strutture disponibili.
+	 * Funzione che selezionata una localitï¿½ torna le strutture disponibili.
 	 * 
-	 * @param id della località cercata
+	 * @param id della localitï¿½ cercata
 	 * @return Lista di strutture disponibili per la prenotazione in una determinata
-	 *         località
+	 *         localitï¿½
 	 */
 	@RequestMapping(value = "/create/Accomodation/{id}", method = RequestMethod.POST)
 	public ResponseEntity<List<Accomodation>> SearchAccomodationByDestination(@PathVariable("id") int id) {
@@ -111,7 +148,7 @@ public class BookingController {
 
 	}
 
-	// Ricerca di un utente se è già nel database
+	// Ricerca di un utente se ï¿½ giï¿½ nel database
 	@RequestMapping(value = "/user/{FiscalCode}/", method = RequestMethod.POST)
 	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
 		User user;
@@ -145,30 +182,4 @@ public class BookingController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
 	}
-
-	
-	/**
-	 * Appare quando si è conclusa la prenotazione e si è nel carrello per la conferma della
-	 * prenotazione
-	 * @param id
-	 * @return La prenotazione appena effettuata
-	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET /*
-																 * ,produces = { MediaType.APPLICATION_JSON_VALUE,
-																 * MediaType.APPLICATION_XML_VALUE }
-																 */)
-	public ResponseEntity<Booking> getBooking(@PathVariable("id") int id) {
-		Booking booking;
-		try {
-			booking = bookingService.find(id);
-			if (booking == null)
-				return new ResponseEntity<Booking>(HttpStatus.NOT_FOUND);
-			return new ResponseEntity<Booking>(booking, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-
 }

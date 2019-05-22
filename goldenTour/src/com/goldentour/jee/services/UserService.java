@@ -16,6 +16,8 @@ public interface UserService {
 	UserViewBean authorize(String username, String password) throws Exception ;
 
 	void update(User currentUser);
+
+	User find(String fiscalCode);
 }
 
 

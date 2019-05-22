@@ -42,7 +42,7 @@ public class Booking implements Serializable {
 	private Date endDate;
 
 	@Column(name = "person_number", nullable = false)
-	private String personNumber;
+	private int personNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_transport")
@@ -59,6 +59,8 @@ public class Booking implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
 	private User idTourOperator;
+	
+	private int price;
 	
 	public Long getId() {
 		return id;
@@ -100,11 +102,11 @@ public class Booking implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public String getPersonNumber() {
+	public int getPersonNumber() {
 		return personNumber;
 	}
 
-	public void setPersonNumber(String personNumber) {
+	public void setPersonNumber(int personNumber) {
 		this.personNumber = personNumber;
 	}
 
@@ -149,6 +151,14 @@ public class Booking implements Serializable {
 		if (!id.equals(tmp.getId()))
 		return false;
 	return true;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 

@@ -56,4 +56,16 @@ public class UserServiceImpl implements UserService {
 		throw new Exception("User not found");
 	}
 
+	@Override
+	public User find(int idUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(User currentUser) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

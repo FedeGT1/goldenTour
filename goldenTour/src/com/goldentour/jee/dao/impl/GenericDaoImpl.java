@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +23,8 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	private Class<T> type;
 
-	//@PostConstruct
+
+	// @PostConstruct
 	public void init() {
 
 		Type t = getClass().getGenericSuperclass();
@@ -29,6 +33,10 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	}
 
+	@Override
+	public EntityManager getEntityManager() {
+		return em;
+	}
 
 	@Override
 	public T create(final T t) {
@@ -36,14 +44,14 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 		return t;
 	}
 
-	@Override 	
+	@Override
 	public void delete(final Object id) {
-		this.em.remove(this.em.getReference(type, id));		
+		this.em.remove(this.em.getReference(type, id));
 	}
 
 	@Override
 	public T find(final Object id) {
-		return this.em.find(type,  id);
+		return this.em.find(type, id);
 
 	}
 
@@ -51,12 +59,6 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	public T update(final T t) {
 		return this.em.merge(t);
 	}
-
-	@Override
-	public EntityManager getEntityManager() {
-		return em;
-	}
-
 
 	@Override
 	public List<T> findAll() {
