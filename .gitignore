@@ -45,6 +45,7 @@ nb-configuration.xml
 
 # JDT-specific (Eclipse Java Development Tools)     
 .classpath
+.settings
 
 # Misc
 *.swp
