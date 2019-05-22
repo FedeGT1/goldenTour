@@ -54,11 +54,11 @@ public class Booking implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
-	private User idUser;
+	private User User;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user")
-	private User idTourOperator;
+	@JoinColumn(name = "id_tourOperator")
+	private User TourOperator;
 	
 	private int price;
 	
@@ -126,20 +126,22 @@ public class Booking implements Serializable {
 		this.idAccomodation = idAccomodation;
 	}
 	
-	public User getIdUser() {
-		return idUser;
-	}
-	
-	public void setIdUser(User idUser) {
-		this.idUser = idUser;
-	}
-	
-	public User getIdTourOperator() {
-		return idTourOperator;
+
+
+	public User getUser() {
+		return User;
 	}
 
-	public void setIdTourOperator(User idTourOperator) {
-		this.idTourOperator = idTourOperator;
+	public void setUser(User user) {
+		User = user;
+	}
+
+	public User getTourOperator() {
+		return TourOperator;
+	}
+
+	public void setTourOperator(User tourOperator) {
+		TourOperator = tourOperator;
 	}
 
 	@Override

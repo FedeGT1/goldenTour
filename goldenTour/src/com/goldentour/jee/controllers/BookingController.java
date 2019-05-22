@@ -27,14 +27,13 @@ import com.goldentour.jee.services.UserService;
 @RequestMapping("/booking")
 public class BookingController {
 
-	@Autowired
-	private UserService userService;
+
 	@Autowired
 	private BookingService bookingService;
 	@Autowired
 	private DestinationService destinationServices;
-	@Autowired
-	private AccomodationService accomodationServices;
+	/*@Autowired
+	private AccomodationService accomodationServices;*/
 
 
 	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
@@ -101,7 +100,7 @@ public class BookingController {
 	 * @return Lista di strutture disponibili per la prenotazione in una determinata
 	 *         localit�
 	 */
-	@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.POST)
 	public ResponseEntity<List<Accomodation>> SearchAccomodationByDestination(@PathVariable("id") int id) {
 
 		List<Accomodation> accomodations;
@@ -117,7 +116,7 @@ public class BookingController {
 			return new ResponseEntity<List<Accomodation>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	}// end SearchAccomodationByDestination
+	}*/// end SearchAccomodationByDestination
 
 	@RequestMapping(value = "/to/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Booking> updateBooking(@PathVariable("id") int id, @RequestBody Booking booking) {
@@ -135,7 +134,7 @@ public class BookingController {
 			currentBooking.setIdAccomodation(booking.getIdAccomodation());
 			currentBooking.setIdDestination(booking.getIdDestination());
 			currentBooking.setIdTransport(booking.getIdTransport());
-			currentBooking.setIdUser(booking.getIdUser());
+			currentBooking.setUser(booking.getUser());
 			currentBooking.setPersonNumber(booking.getPersonNumber());
 
 			bookingService.update(currentBooking);
@@ -148,20 +147,7 @@ public class BookingController {
 
 	}
 
-	// Ricerca di un utente se � gi� nel database
-	@RequestMapping(value = "/to/user/{FiscalCode}/", method = RequestMethod.POST)
-	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
-		User user;
-		try {
-			user = userService.findByFiscalCode(fiscalCode);
-			if (user == null)
-				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+
 
 	// Creazione nuova prenotazione
 	@RequestMapping(value = "/to/newBooking/", method = RequestMethod.POST)
@@ -173,13 +159,5 @@ public class BookingController {
 
 	}
 
-	// Creazione un nuovo utente
-	@RequestMapping(value = "/to/newUser/", method = RequestMethod.POST)
-	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-		userService.saveUser(user);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getIduser()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
-	}
 }

@@ -2,6 +2,7 @@ package com.goldentour.jee.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.goldentour.jee.entities.User;
 import com.goldentour.jee.services.UserService;
@@ -67,7 +69,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/login/", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<UserViewBean> authorize(@RequestBody UserViewBean userViewBean) {
 		try {
 			userViewBean = userService.authorize(userViewBean.getUsername(), userViewBean.getPassword());
@@ -86,6 +88,31 @@ public class UserController {
 	public ResponseEntity<User> saveUser() {
 		//TODO
 		return null;
+
+	}
+	
+	// Ricerca di un utente se � gi� nel database
+	@RequestMapping(value = "/to/user/{FiscalCode}/", method = RequestMethod.POST)
+	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
+		User user;
+		try {
+			user = userService.findByFiscalCode(fiscalCode);
+			if (user == null)
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// Creazione un nuovo utente
+	@RequestMapping(value = "/to/newUser/", method = RequestMethod.POST)
+	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+		userService.saveUser(user);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getIduser()).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
 	}
 

@@ -6,15 +6,20 @@ import javax.naming.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.goldentour.jee.dao.UserDao;
 import com.goldentour.jee.entities.User;
 import com.goldentour.jee.viewBeans.UserViewBean;
 
+@Service(value = "userService")
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	@Qualifier("jpaUser")
+	@Qualifier("userDao")
 	UserDao user;
 
 	@Override
@@ -44,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserViewBean authorize(String username, String password) throws Exception {
 
-		List<User> users = user.findByUsernameAndPassword(username, password);
+		List<User> users = (List<User>) user.findByUsernameAndPassword(username, password);
 		UserViewBean user = null;
 		if (users != null && !users.isEmpty()) {
 			if (users.size() > 1)

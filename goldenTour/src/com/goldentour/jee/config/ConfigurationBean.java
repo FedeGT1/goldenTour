@@ -82,7 +82,7 @@ public class ConfigurationBean {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/goldentour");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/goldentour?serverTimezone=Europe/Rome");
 		dataSource.setUsername("goldentour");
 		dataSource.setPassword("goldentour");
 		return dataSource;

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
 import com.goldentour.jee.dao.AccomodationDao;
@@ -20,6 +21,8 @@ import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.Transport;
 import com.goldentour.jee.entities.User;
 
+@Service(value = "bookingService")
+@Transactional(propagation = Propagation.REQUIRED)
 public class BookingServiceImpl implements BookingService {
 
 	@Autowired
@@ -31,8 +34,8 @@ public class BookingServiceImpl implements BookingService {
 	DestinationDao destinationDao;
 
 	@Autowired
-	@Qualifier("trasportDao")
-	TransportDao trasportDao;
+	@Qualifier("transportDao")
+	TransportDao transportDao;
 
 	@Autowired
 	@Qualifier("accomodationDao")
@@ -54,10 +57,10 @@ public class BookingServiceImpl implements BookingService {
 
 			// Recupero idUser
 			User user = userDao.find(idUser);
-			b.setIdUser(idUser);
+			b.setUser(idUser);
 
 			// Recupero idTransport
-			Transport transport = trasportDao.find(idTransport);
+			Transport transport = transportDao.find(idTransport);
 			b.setIdTransport(idTransport);
 
 			// Recupero idDestinazione
@@ -70,7 +73,7 @@ public class BookingServiceImpl implements BookingService {
 
 			// Recupero idTourOperator
 			User tourOperator = userDao.find(idTourOperator);
-			b.setIdTourOperator(idTourOperator);
+			b.setTourOperator(idTourOperator);
 
 			b.setDescription(description);
 			b.setPersonNumber(personNumber);

@@ -6,11 +6,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+
 import com.goldentour.jee.dao.BookingDao;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.User;
 
+@Repository(value = "bookingDao")
 public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDao {
 
 	@PersistenceContext

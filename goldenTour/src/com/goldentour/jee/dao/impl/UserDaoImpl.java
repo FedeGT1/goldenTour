@@ -18,7 +18,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 	protected EntityManager em;
 
 	@Override
-	public List<User> findByUsernameAndPassword(String username, String password) {
+	public User findByUsernameAndPassword(String username, String password) {
 		List<User> users;
 
 		try {
@@ -27,12 +27,12 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 	            q.setParameter("username", username);
 	            q.setParameter("password", password);
 	            users = q.getResultList();
-
+	            if (users.size()!= 0) return users.get(0);
+	            else return null;
 
 		} finally {
 			em.close();
 		}
-		return users;
 	}
 
 }
