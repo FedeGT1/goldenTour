@@ -5,5 +5,6 @@ import com.goldentour.jee.entities.Role;
 
 public class RoleDaoImpl extends GenericDaoImpl<Role> implements RoleDao{
 
+	
 
 }

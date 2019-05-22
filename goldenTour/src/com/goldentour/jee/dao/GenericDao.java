@@ -1,5 +1,7 @@
 package com.goldentour.jee.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 public interface GenericDao<T>  {
@@ -13,5 +15,7 @@ public interface GenericDao<T>  {
 	T update(T t);
 	
 	EntityManager getEntityManager();
+	
+	 List<T> findAll();
 	
 }

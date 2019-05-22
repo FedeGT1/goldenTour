@@ -3,6 +3,7 @@ package com.goldentour.jee.dao.impl;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,7 +36,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 		return t;
 	}
 
-	@Override
+	@Override 	
 	public void delete(final Object id) {
 		this.em.remove(this.em.getReference(type, id));		
 	}
@@ -54,6 +55,12 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	@Override
 	public EntityManager getEntityManager() {
 		return em;
+	}
+
+
+	@Override
+	public List<T> findAll() {
+		return em.createQuery("SELECT t FROM " + type.getSimpleName() + "t").getResultList();
 	}
 
 }
