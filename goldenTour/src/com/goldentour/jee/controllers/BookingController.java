@@ -17,16 +17,18 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.goldentour.jee.entities.Accomodation;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
+import com.goldentour.jee.entities.User;
 import com.goldentour.jee.services.AccomodationService;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
+import com.goldentour.jee.services.UserService;
 
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
 
-	//@Autowired
-	//private UserService userService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private BookingService bookingService;
 	@Autowired
@@ -109,6 +111,21 @@ public class BookingController {
 
 	}
 
+	// Ricerca di un utente se è già nel database
+	@RequestMapping(value = "/user/{FiscalCode}/", method = RequestMethod.POST)
+	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
+		User user;
+		try {
+			user = userService.findByFiscalCode(fiscalCode);
+			if (user == null)
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	// Creazione nuova prenotazione
 	@RequestMapping(value = "/newBooking/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createBooking(@RequestBody Booking booking, UriComponentsBuilder ucBuilder) {
@@ -119,8 +136,27 @@ public class BookingController {
 
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE })
+	// Creazione un nuovo utente
+	@RequestMapping(value = "/newUser/", method = RequestMethod.POST)
+	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+		userService.saveUser(user);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getIduser()).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+
+	}
+
+	
+	/**
+	 * Appare quando si è conclusa la prenotazione e si è nel carrello per la conferma della
+	 * prenotazione
+	 * @param id
+	 * @return La prenotazione appena effettuata
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET /*
+																 * ,produces = { MediaType.APPLICATION_JSON_VALUE,
+																 * MediaType.APPLICATION_XML_VALUE }
+																 */)
 	public ResponseEntity<Booking> getBooking(@PathVariable("id") int id) {
 		Booking booking;
 		try {

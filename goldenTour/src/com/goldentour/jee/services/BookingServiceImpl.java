@@ -11,23 +11,24 @@ public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	private BookingDao bookingDao;
+	
 	@Override
 	public Booking find(int id) {
-		return bookingDao.find(id);
+		//TODO
+		return null;
 	}
 
 	@Override
 	@Transactional
 	public void update(Booking booking) {
-		bookingDao.update(booking);
+		//TODO
 
 	}
 
 	@Override
 	@Transactional
 	public void saveBooking(Booking booking) {
-		bookingDao.create(booking);
-
+	//TODO
 	}
 
 }
