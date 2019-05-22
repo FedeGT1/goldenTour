@@ -52,7 +52,10 @@ public class User implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_role")
-	private int idrole;
+	private Role role;
+	
+	@Column(name = "email", nullable = false)
+	private String email;
 	
 
 	
@@ -116,11 +119,18 @@ public class User implements Serializable{
 	public void setCap(int cap) {
 		this.cap = cap;
 	}
-	public int getIdrole() {
-		return idrole;
+
+	public String getEmail() {
+		return email;
 	}
-	public void setIdrole(int idrole) {
-		this.idrole = idrole;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 }

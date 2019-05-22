@@ -14,7 +14,16 @@ public interface BookingService {
 	public Booking createNewBooking(Long idBooking, String description, int personNumber, Date startDate, Date endDate,
 			int price, User idUser, Transport idTransport, Destination idDestination, Accomodation idAccomodation,
 			User idTourOperator) throws Exception;
+	
+	public Booking find(int idBooking);
+
 
 	public List<Booking> loadAllBooking() throws Exception;
+
+	public List<Booking> findAllBooking(int idUser);
+
+	public void update(Booking currentBooking);
+
+	public void saveBooking(Booking booking);
 
 }

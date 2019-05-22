@@ -102,5 +102,28 @@ public class BookingServiceImpl implements BookingService {
 		return bookingDao.findAll();
 	}
 
+	@Override
+	public Booking find(int idBooking) {
+		return bookingDao.find(idBooking);
+	}
+
+	@Override
+	public List<Booking> findAllBooking(int idUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Booking currentBooking) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveBooking(Booking booking) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
