@@ -16,8 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "packet")
-public class Packet implements Serializable {
+@Table(name = "booking")
+public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -133,7 +133,7 @@ public class Packet implements Serializable {
 		if (this == obj) return true;
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
-		Packet  tmp = (Packet) obj;
+		Booking  tmp = (Booking) obj;
 		if (!id.equals(tmp.getId()))
 		return false;
 	return true;
