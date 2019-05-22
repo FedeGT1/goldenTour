@@ -38,7 +38,7 @@ public class BookingController {
 
 
 	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
-	@RequestMapping(value = "/dashboard/user/{idUser}/booking", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{idUser}", method = RequestMethod.GET)
 	public ResponseEntity<Booking> getBooking(@PathVariable("idUser") int idUser) {
 		Booking booking;
 
@@ -56,7 +56,7 @@ public class BookingController {
 	}
 
 	//--------------Ritorna tutte le prenotazioni del tour operator selezionato--------------------------
-	@RequestMapping(value = "/dashboard/to/{idUser}/booking", method = RequestMethod.GET)
+	@RequestMapping(value = "/to/{idUser}", method = RequestMethod.GET)
 	public ResponseEntity<List<Booking>> ListAllTOBooking(@PathVariable("idUser") int idUser) {
 		List<Booking> bookingList;
 
@@ -78,7 +78,7 @@ public class BookingController {
 	 * 
 	 * @return la lista delle localit� disponibili per le prenotazioni
 	 */
-	@RequestMapping(value = "/create/", method = RequestMethod.GET)
+	@RequestMapping(value = "/to/create/", method = RequestMethod.GET)
 	public ResponseEntity<List<Destination>> AllAvaibleDestination() {
 		List<Destination> destinations;
 		try {
@@ -101,7 +101,7 @@ public class BookingController {
 	 * @return Lista di strutture disponibili per la prenotazione in una determinata
 	 *         localit�
 	 */
-	@RequestMapping(value = "/create/Accomodation/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.POST)
 	public ResponseEntity<List<Accomodation>> SearchAccomodationByDestination(@PathVariable("id") int id) {
 
 		List<Accomodation> accomodations;
@@ -119,7 +119,7 @@ public class BookingController {
 
 	}// end SearchAccomodationByDestination
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/to/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Booking> updateBooking(@PathVariable("id") int id, @RequestBody Booking booking) {
 		Booking currentBooking;
 		try {
@@ -149,7 +149,7 @@ public class BookingController {
 	}
 
 	// Ricerca di un utente se � gi� nel database
-	@RequestMapping(value = "/user/{FiscalCode}/", method = RequestMethod.POST)
+	@RequestMapping(value = "/to/user/{FiscalCode}/", method = RequestMethod.POST)
 	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
 		User user;
 		try {
@@ -164,7 +164,7 @@ public class BookingController {
 	}
 
 	// Creazione nuova prenotazione
-	@RequestMapping(value = "/newBooking/", method = RequestMethod.POST)
+	@RequestMapping(value = "/to/newBooking/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createBooking(@RequestBody Booking booking, UriComponentsBuilder ucBuilder) {
 		bookingService.saveBooking(booking);
 		HttpHeaders headers = new HttpHeaders();
@@ -174,7 +174,7 @@ public class BookingController {
 	}
 
 	// Creazione un nuovo utente
-	@RequestMapping(value = "/newUser/", method = RequestMethod.POST)
+	@RequestMapping(value = "/to/newUser/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		userService.saveUser(user);
 		HttpHeaders headers = new HttpHeaders();

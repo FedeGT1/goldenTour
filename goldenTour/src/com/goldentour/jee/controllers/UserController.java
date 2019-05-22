@@ -15,6 +15,7 @@ import com.goldentour.jee.services.UserService;
 import com.goldentour.jee.viewBeans.UserViewBean;
 
 @RestController
+@RequestMapping("/security")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -23,7 +24,7 @@ public class UserController {
 
 
 	//--------------Visualizza Anagrafica utente----------------------------------------------------------
-	@RequestMapping(value = "/dashboard/user/{idUser}", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{idUser}", method = RequestMethod.GET)
 	public ResponseEntity<User> getUser(@PathVariable("idUser") int idUser) {
 		User user;
 		try {
@@ -39,7 +40,7 @@ public class UserController {
 	}
 
 	//--------------Modifica Anagrafica utente----------------------------------------------------------
-	@RequestMapping(value = "/dashboard/user/{idUser}/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "/user/{idUser}/update", method = RequestMethod.PUT)
 	public ResponseEntity<User> updateUser(@PathVariable("idUser") int idUser, @RequestBody User user){
 		User currentUser;
 		try {
