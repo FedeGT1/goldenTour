@@ -42,6 +42,7 @@ nb-configuration.xml
 
 # JDT-specific (Eclipse Java Development Tools)     
 .classpath
+.jar
 
 # OS
 .DS_Store
