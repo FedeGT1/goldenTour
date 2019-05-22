@@ -1,5 +1,7 @@
 package com.goldentour.jee.services;
 
+import java.util.List;
+
 import com.goldentour.jee.entities.Booking;
 
 public interface BookingService {
@@ -9,5 +11,7 @@ public interface BookingService {
 	void update(Booking currentBooking);
 
 	void saveBooking(Booking booking);
+
+	List<Booking> findAllBooking(int idUser);
 
 }
