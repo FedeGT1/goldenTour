@@ -1,21 +1,20 @@
 package com.goldentour.jee.dao.impl;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.PersistenceUnit;
 
 import org.springframework.stereotype.Repository;
 
 import com.goldentour.jee.dao.GenericDao;
 
-@Repository
+
 public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@PersistenceContext
@@ -24,12 +23,12 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	private Class<T> type;
 
 
-	// @PostConstruct
+	@PostConstruct
 	public void init() {
 
 		Type t = getClass().getGenericSuperclass();
 		ParameterizedType pt = (ParameterizedType) t;
-		type = (Class<T>) pt.getActualTypeArguments()[0];
+		type = (Class) pt.getActualTypeArguments()[0];
 
 	}
 
@@ -51,7 +50,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@Override
 	public T find(final Object id) {
-		return this.em.find(type, id);
+		return (T) this.em.find(type, id);
 
 	}
 

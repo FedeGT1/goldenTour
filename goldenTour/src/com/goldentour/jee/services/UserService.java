@@ -5,7 +5,7 @@ import com.goldentour.jee.viewBeans.UserViewBean;
 
 public interface UserService {
 
-	User find(int idUser);
+	UserViewBean find(int idUser);
 
 	void saveUser(User user);
 
@@ -15,9 +15,10 @@ public interface UserService {
 
 	UserViewBean authorize(String username, String password) throws Exception ;
 
-	void update(User currentUser);
+	void update(UserViewBean currentUser);
 
 	User find(String fiscalCode);
+
 }
 
 

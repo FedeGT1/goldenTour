@@ -37,7 +37,7 @@ public class BookingController {
 
 
 	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
-	@RequestMapping(value = "/user/{idUser}", method = RequestMethod.GET)
+	@RequestMapping(value = "/userDao/{idUser}", method = RequestMethod.GET)
 	public ResponseEntity<Booking> getBooking(@PathVariable("idUser") int idUser) {
 		Booking booking;
 

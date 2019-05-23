@@ -2,8 +2,6 @@ package com.goldentour.jee.services;
 
 import java.util.List;
 
-import javax.naming.AuthenticationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.goldentour.jee.dao.UserDao;
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.exception.AuthenticationException;
 import com.goldentour.jee.viewBeans.UserViewBean;
 
 @Service(value = "userService")
@@ -20,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	@Qualifier("userDao")
-	UserDao user;
+	UserDao userDao;
 
 	@Override
 	public User find(String fiscalCode) {
@@ -49,26 +48,29 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserViewBean authorize(String username, String password) throws Exception {
 
-		List<User> users = (List<User>) user.findByUsernameAndPassword(username, password);
-		UserViewBean user = null;
-		if (users != null && !users.isEmpty()) {
-			if (users.size() > 1)
-				throw new Exception("More of 1 User");
-
-			return user.getAuthenticate(users.get(0));
+		User user= userDao.findByUsernameAndPassword(username, password);
+		if (user != null) {
+			return new UserViewBean().getAuthenticate(user);
 		}
-
-		throw new Exception("User not found");
+		else {
+			throw new AuthenticationException("User not found");
+		}
 	}
 
 	@Override
-	public User find(int idUser) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserViewBean find(int idUser) {
+		User entity = userDao.find(idUser);
+		
+		UserViewBean userView = new UserViewBean();
+		userView.setUsername(entity.getUsername());
+		userView.setRole(entity.getRole().getRolename());
+		
+		
+		return userView;
 	}
 
 	@Override
-	public void update(User currentUser) {
+	public void update(UserViewBean currentUser) {
 		// TODO Auto-generated method stub
 		
 	}

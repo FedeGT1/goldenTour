@@ -27,9 +27,7 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 	            q.setParameter("username", username);
 	            q.setParameter("password", password);
 	            users = q.getResultList();
-	            if (users.size()!= 0) return users.get(0);
-	            else return null;
-
+	            return users.size() > 0 ? users.get(0) : null;
 		} finally {
 			em.close();
 		}

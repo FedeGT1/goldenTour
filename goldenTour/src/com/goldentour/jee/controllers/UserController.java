@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.exception.AuthenticationException;
 import com.goldentour.jee.services.UserService;
 import com.goldentour.jee.viewBeans.UserViewBean;
 
@@ -27,45 +28,45 @@ public class UserController {
 
 	//--------------Visualizza Anagrafica utente----------------------------------------------------------
 	@RequestMapping(value = "/user/{idUser}", method = RequestMethod.GET)
-	public ResponseEntity<User> getUser(@PathVariable("idUser") int idUser) {
-		User user;
+	public ResponseEntity<UserViewBean> getUser(@PathVariable("idUser") int idUser) {
+		UserViewBean user;
 		try {
 			user = userService.find(idUser);
 			if (user == null) {
-				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<UserViewBean>(HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			return new ResponseEntity<UserViewBean>(user, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<UserViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	//--------------Modifica Anagrafica utente----------------------------------------------------------
 	@RequestMapping(value = "/user/{idUser}/update", method = RequestMethod.PUT)
-	public ResponseEntity<User> updateUser(@PathVariable("idUser") int idUser, @RequestBody User user){
-		User currentUser;
+	public ResponseEntity<UserViewBean> updateUser(@PathVariable("idUser") int idUser, @RequestBody User user){
+		UserViewBean currentUser;
 		try {
 			currentUser = userService.find(idUser);
 			if (currentUser==null) {
-				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<UserViewBean>(HttpStatus.NOT_FOUND);
 			}
 
 			currentUser.setName(user.getName());
 			currentUser.setLastname(user.getLastname());
 			currentUser.setAddress(user.getAddress());
 			currentUser.setCity(user.getCity());
-			currentUser.setBirthday(user.getBirthday());
+			//currentUser.setBirthday(user.getBirthday());
 			currentUser.setBirthplace(user.getBirthplace());
-			currentUser.setCap(user.getCap());
+			//currentUser.setCap(user.getCap());
 
 
 			userService.update(currentUser);
-			return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+			return new ResponseEntity<UserViewBean>(currentUser, HttpStatus.OK);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<UserViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -73,14 +74,22 @@ public class UserController {
 	public ResponseEntity<UserViewBean> authorize(@RequestBody UserViewBean userViewBean) {
 		try {
 			userViewBean = userService.authorize(userViewBean.getUsername(), userViewBean.getPassword());
-			if (userViewBean != null) return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.ACCEPTED);
-			else return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.NOT_FOUND);
+			if (userViewBean != null) return new ResponseEntity<>(userViewBean, HttpStatus.OK);
+			
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<UserViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
+		catch(AuthenticationException b) {
+		 return new ResponseEntity<>(userViewBean, HttpStatus.NOT_FOUND);
+			
+			
+			
 		}
-
+		
+		catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return null;
 	}
 
 
@@ -92,7 +101,7 @@ public class UserController {
 	}
 	
 	// Ricerca di un utente se � gi� nel database
-	@RequestMapping(value = "/to/user/{FiscalCode}/", method = RequestMethod.POST)
+	@RequestMapping(value = "/to/user/{FiscalCode}", method = RequestMethod.POST)
 	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
 		User user;
 		try {
@@ -107,11 +116,11 @@ public class UserController {
 	}
 	
 	// Creazione un nuovo utente
-	@RequestMapping(value = "/to/newUser/", method = RequestMethod.POST)
+	@RequestMapping(value = "/to/newUser", method = RequestMethod.POST)
 	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		userService.saveUser(user);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getIduser()).toUri());
+		headers.setLocation(ucBuilder.path("/userDao/id").buildAndExpand(user.getIduser()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
 	}

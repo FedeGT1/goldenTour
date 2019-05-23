@@ -16,7 +16,71 @@ public class UserViewBean {
     private String cap;
     private String role;
 
-    public String getUsername() {
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getBirthplace() {
+		return birthplace;
+	}
+
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
+	}
+
+	public String getCap() {
+		return cap;
+	}
+
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+
+	public String getUsername() {
         return username;
     }
 
@@ -49,15 +113,11 @@ public class UserViewBean {
     }
 
 	public UserViewBean getAuthenticate(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		this.username=user.getUsername();
+		this.role=user.getRole().getRolename();
+		this.name=user.getName();
+		this.lastname=user.getLastname();
+		return this;
 	}
-
-
-   /* public UserViewBean getAuthenticate(User u) {
-       // this.email = u.getEmail();
-        this.username = u.getUsername();
-        //this.role = u.getRole().getRolename();
-    }*/
 
 } 
