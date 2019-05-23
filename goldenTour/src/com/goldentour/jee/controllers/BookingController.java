@@ -17,6 +17,7 @@ import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
+import com.goldentour.jee.viewBeans.DestinationViewBean;
 
 @RestController
 @RequestMapping("/booking")
@@ -73,17 +74,17 @@ public class BookingController {
 	 * @return la lista delle località disponibili per le prenotazioni TODO da controllare
 	 */
 	@RequestMapping(value = "/to/create/", method = RequestMethod.GET)
-	public ResponseEntity<List<Destination>> AllAvaibleDestination() {
-		List<Destination> destinations;
+	public ResponseEntity<List<DestinationViewBean>> AllAvaibleDestination() {
+		List<DestinationViewBean> destinationsList;
 		try {
-			destinations = destinationServices.FindAllDestination();
-			if (destinations.isEmpty()) {
-				return new ResponseEntity<List<Destination>>(HttpStatus.NO_CONTENT);
+			destinationsList = destinationServices.FindAllDestination();
+			if (destinationsList.isEmpty()) {
+				return new ResponseEntity<List<DestinationViewBean>>(HttpStatus.NO_CONTENT);
 			}
-			return new ResponseEntity<List<Destination>>(destinations, HttpStatus.OK);
+			return new ResponseEntity<List<DestinationViewBean>>(destinationsList, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Destination>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<DestinationViewBean>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}// end CreateBooking

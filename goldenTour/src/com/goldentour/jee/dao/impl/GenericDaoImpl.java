@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.goldentour.jee.dao.GenericDao;
 
-@Repository
 public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@PersistenceContext
@@ -27,7 +26,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 		Type t = getClass().getGenericSuperclass();
 		ParameterizedType pt = (ParameterizedType) t;
-		type = (Class<T>) pt.getActualTypeArguments()[0];
+		type = (Class) pt.getActualTypeArguments()[0];
 
 	}
 
@@ -49,7 +48,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@Override
 	public T find(final Object id) {
-		return this.em.find(type, id);
+		return (T) this.em.find(type, id);
 
 	}
 
@@ -60,7 +59,7 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@Override
 	public List<T> findAll() {
-		return em.createQuery("SELECT t FROM " + type.getSimpleName() + "t").getResultList();
+		return (List<T>) em.createQuery("SELECT t FROM " + type.getSimpleName()+" t").getResultList();
 	}
 
 }
