@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.goldentour.jee.entities.Accomodation;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
-import com.goldentour.jee.entities.User;
-import com.goldentour.jee.services.AccomodationService;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
-import com.goldentour.jee.services.UserService;
 
 @RestController
 @RequestMapping("/booking")
@@ -75,7 +70,7 @@ public class BookingController {
 	/**
 	 * Metodo chiamato all'invocazione della creazione di una prenotazione
 	 * 
-	 * @return la lista delle localit� disponibili per le prenotazioni
+	 * @return la lista delle località disponibili per le prenotazioni TODO da controllare
 	 */
 	@RequestMapping(value = "/to/create/", method = RequestMethod.GET)
 	public ResponseEntity<List<Destination>> AllAvaibleDestination() {
@@ -98,7 +93,7 @@ public class BookingController {
 	 * 
 	 * @param id della localit� cercata
 	 * @return Lista di strutture disponibili per la prenotazione in una determinata
-	 *         localit�
+	 *         località TODO
 	 */
 	/*@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.POST)
 	public ResponseEntity<List<Accomodation>> SearchAccomodationByDestination(@PathVariable("id") int id) {
@@ -131,9 +126,9 @@ public class BookingController {
 			currentBooking.setDescription(booking.getDescription());
 			currentBooking.setStartDate(booking.getStartDate());
 			currentBooking.setEndDate(booking.getEndDate());
-			currentBooking.setIdAccomodation(booking.getIdAccomodation());
-			currentBooking.setIdDestination(booking.getIdDestination());
-			currentBooking.setIdTransport(booking.getIdTransport());
+			currentBooking.setAccomodation(booking.getAccomodation());
+			currentBooking.setDestination(booking.getDestination());
+			currentBooking.setTransport(booking.getTransport());
 			currentBooking.setUser(booking.getUser());
 			currentBooking.setPersonNumber(booking.getPersonNumber());
 

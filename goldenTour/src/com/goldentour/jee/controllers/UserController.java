@@ -84,14 +84,14 @@ public class UserController {
 	}
 
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ResponseEntity<User> saveUser() {
 		//TODO
 		return null;
 
 	}
-	
-	// Ricerca di un utente se � gi� nel database
+	*/
+	// Ricerca di un utente se è già nel database
 	@RequestMapping(value = "/to/user/{FiscalCode}/", method = RequestMethod.POST)
 	public ResponseEntity<User> SearchUserByFiscalCode(@PathVariable("FiscalCode") String fiscalCode) {
 		User user;
@@ -111,7 +111,7 @@ public class UserController {
 	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		userService.saveUser(user);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getIduser()).toUri());
+		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
 	}
