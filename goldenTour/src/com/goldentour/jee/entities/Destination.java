@@ -10,20 +10,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="destination")
+@Table(name = "destination")
 public class Destination implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private Long id;
-	
-	@Column(name="name", nullable=false)
+
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name="country", nullable=false)
+	@Column(name = "country", nullable = false)
 	private String county;
 
 	public Long getId() {
@@ -49,15 +49,18 @@ public class Destination implements Serializable {
 	public void setCounty(String county) {
 		this.county = county;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Destination tmp = (Destination) obj;
 		if (!id.equals(tmp.getId()))
-		return false;
-	return true;
+			return false;
+		return true;
 	}
 }

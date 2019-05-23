@@ -13,33 +13,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="accomodation")
-public class Accomodation implements Serializable{
+@Table(name = "accomodation")
+public class Accomodation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private Long id;
 
-	@Column(name="name", nullable=false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name="address", nullable=false)
+	@Column(name = "address", nullable = false)
 	private String address;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="destination")
-	private
-	Destination idDestination;	
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="accomodation_type")
-	private 	AccomodationType idType;
-
-	@Column(name="telephone")
+	@Column(name = "telephone")
 	private int telephone;
+
+	@Column(name = "price")
+	private int price;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_accomodation_type")
+	private AccomodationType accomodationType;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_destination")
+	private Destination destination;
 
 	public Long getId() {
 		return id;
@@ -65,14 +67,6 @@ public class Accomodation implements Serializable{
 		this.address = address;
 	}
 
-	public AccomodationType getIdType() {
-		return idType;
-	}
-
-	public void setIdType(AccomodationType idType) {
-		this.idType = idType;
-	}
-
 	public int getTelephone() {
 		return telephone;
 	}
@@ -81,25 +75,42 @@ public class Accomodation implements Serializable{
 		this.telephone = telephone;
 	}
 
-	public Destination getIdDestination() {
-		return idDestination;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setIdDestination(Destination idDestination) {
-		this.idDestination = idDestination;
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public AccomodationType getAccomodationType() {
+		return accomodationType;
+	}
+
+	public void setAccomodationType(AccomodationType accomodationType) {
+		this.accomodationType = accomodationType;
+	}
+
+	public Destination getDestination() {
+		return destination;
+	}
+
+	public void setDestination(Destination destination) {
+		this.destination = destination;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Accomodation tmp = (Accomodation) obj;
 		if (!id.equals(tmp.getId()))
-		return false;
-	return true;
+			return false;
+		return true;
 	}
-
-
 
 }

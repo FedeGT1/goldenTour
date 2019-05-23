@@ -1,4 +1,4 @@
-    
+
 package com.goldentour.jee.entities;
 
 import java.io.Serializable;
@@ -18,25 +18,25 @@ public class Role implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id_role")
-	private Long idRole;
+	@Column(name = "id")
+	private Long id;
 
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	public Long getIdRole() {
-		return idRole;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdRole(Long idRole) {
-		this.idRole = idRole;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getRolename() {
+	public String getName() {
 		return name;
 	}
 
-	public void setRolename(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -49,7 +49,7 @@ public class Role implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Role tmp = (Role) obj;
-		if (!idRole.equals(tmp.getIdRole()))
+		if (!id.equals(tmp.getId()))
 			return false;
 		return true;
 	}

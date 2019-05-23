@@ -29,9 +29,8 @@ public class Booking implements Serializable {
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "destination")
-	private Destination idDestination;
+	@Column(name = "person_number", nullable = false)
+	private int personNumber;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_date")
@@ -41,27 +40,29 @@ public class Booking implements Serializable {
 	@Column(name = "end_date")
 	private Date endDate;
 
-	@Column(name = "person_number", nullable = false)
-	private int personNumber;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_transport")
-	private Transport idTransport;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_accomodation")
-	private Accomodation idAccomodation;
+	@Column(name = "price", nullable = false)
+	private int price;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
-	private User User;
-	
+	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_transport")
+	private Transport transport;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_destination")
+	private Destination destination;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_accomodation")
+	private Accomodation accomodation;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tourOperator")
-	private User TourOperator;
-	
-	private int price;
-	
+	private User tourOperator;
+
 	public Long getId() {
 		return id;
 	}
@@ -78,12 +79,12 @@ public class Booking implements Serializable {
 		this.description = description;
 	}
 
-	public Destination getIdDestination() {
-		return idDestination;
+	public int getPersonNumber() {
+		return personNumber;
 	}
 
-	public void setIdDestination(Destination idDestination) {
-		this.idDestination = idDestination;
+	public void setPersonNumber(int personNumber) {
+		this.personNumber = personNumber;
 	}
 
 	public Date getStartDate() {
@@ -102,59 +103,6 @@ public class Booking implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public int getPersonNumber() {
-		return personNumber;
-	}
-
-	public void setPersonNumber(int personNumber) {
-		this.personNumber = personNumber;
-	}
-
-	public Transport getIdTransport() {
-		return idTransport;
-	}
-
-	public void setIdTransport(Transport idTransport) {
-		this.idTransport = idTransport;
-	}
-
-	public Accomodation getIdAccomodation() {
-		return idAccomodation;
-	}
-
-	public void setIdAccomodation(Accomodation idAccomodation) {
-		this.idAccomodation = idAccomodation;
-	}
-	
-
-
-	public User getUser() {
-		return User;
-	}
-
-	public void setUser(User user) {
-		User = user;
-	}
-
-	public User getTourOperator() {
-		return TourOperator;
-	}
-
-	public void setTourOperator(User tourOperator) {
-		TourOperator = tourOperator;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
-		Booking  tmp = (Booking) obj;
-		if (!id.equals(tmp.getId()))
-		return false;
-	return true;
-	}
-
 	public int getPrice() {
 		return price;
 	}
@@ -163,5 +111,58 @@ public class Booking implements Serializable {
 		this.price = price;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Transport getTransport() {
+		return transport;
+	}
+
+	public void setTransport(Transport transport) {
+		this.transport = transport;
+	}
+
+	public Destination getDestination() {
+		return destination;
+	}
+
+	public void setDestination(Destination destination) {
+		this.destination = destination;
+	}
+
+	public Accomodation getAccomodation() {
+		return accomodation;
+	}
+
+	public void setAccomodation(Accomodation accomodation) {
+		this.accomodation = accomodation;
+	}
+
+	public User getTourOperator() {
+		return tourOperator;
+	}
+
+	public void setTourOperator(User tourOperator) {
+		this.tourOperator = tourOperator;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Booking tmp = (Booking) obj;
+		if (!id.equals(tmp.getId()))
+			return false;
+		return true;
+	}
 
 }
