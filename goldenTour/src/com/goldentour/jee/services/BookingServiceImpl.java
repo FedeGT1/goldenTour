@@ -48,8 +48,8 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Booking createNewBooking(Long idBooking, String description, int personNumber, Date startDate, Date endDate,
-			int price, User idUser, Transport idTransport, Destination idDestination, Accomodation idAccomodation,
-			User idTourOperator) throws Exception {
+			int price, Long idUser, Long idTransport, Long idDestination, Long idAccomodation,
+			Long idTourOperator) throws Exception {
 
 		Booking b = new Booking();
 
@@ -57,23 +57,23 @@ public class BookingServiceImpl implements BookingService {
 
 			// Recupero idUser
 			User user = userDao.find(idUser);
-			b.setUser(idUser);
+			b.setUser(user);
 
 			// Recupero idTransport
 			Transport transport = transportDao.find(idTransport);
-			b.setIdTransport(idTransport);
+			b.setTransport(transport);
 
 			// Recupero idDestinazione
 			Destination destination = destinationDao.find(idDestination);
-			b.setIdDestination(idDestination);
+			b.setDestination(destination);
 
 			// Recupero idAccomodation
 			Accomodation accomodation = accomodationDao.find(idAccomodation);
-			b.setIdAccomodation(idAccomodation);
+			b.setAccomodation(accomodation);
 
 			// Recupero idTourOperator
 			User tourOperator = userDao.find(idTourOperator);
-			b.setTourOperator(idTourOperator);
+			b.setTourOperator(tourOperator);
 
 			b.setDescription(description);
 			b.setPersonNumber(personNumber);

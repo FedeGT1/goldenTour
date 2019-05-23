@@ -111,7 +111,7 @@ public class UserController {
 	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		userService.saveUser(user);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getIduser()).toUri());
+		headers.setLocation(ucBuilder.path("/user/id").buildAndExpand(user.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
 	}

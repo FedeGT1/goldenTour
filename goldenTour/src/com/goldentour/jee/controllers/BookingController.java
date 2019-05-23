@@ -131,9 +131,9 @@ public class BookingController {
 			currentBooking.setDescription(booking.getDescription());
 			currentBooking.setStartDate(booking.getStartDate());
 			currentBooking.setEndDate(booking.getEndDate());
-			currentBooking.setIdAccomodation(booking.getIdAccomodation());
-			currentBooking.setIdDestination(booking.getIdDestination());
-			currentBooking.setIdTransport(booking.getIdTransport());
+			currentBooking.setAccomodation(booking.getAccomodation());
+			currentBooking.setDestination(booking.getDestination());
+			currentBooking.setTransport(booking.getTransport());
 			currentBooking.setUser(booking.getUser());
 			currentBooking.setPersonNumber(booking.getPersonNumber());
 
