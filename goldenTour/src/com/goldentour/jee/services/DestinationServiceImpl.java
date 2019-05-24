@@ -15,17 +15,17 @@ import com.goldentour.jee.viewBeans.DestinationViewBean;
 
 @Service(value = "destinationService")
 @Transactional(propagation = Propagation.REQUIRED)
-public class DestinationServiceImpl implements DestinationService{
+public class DestinationServiceImpl implements DestinationService {
 
 	@Autowired
 	@Qualifier("destinationDao")
 	DestinationDao destinationDao;
-	
+
 	@Override
 	public List<DestinationViewBean> FindAllDestination() {
 		List<Destination> destinations = (List<Destination>) destinationDao.findAll();
 		List<DestinationViewBean> destinationsList = new ArrayList<DestinationViewBean>();
-		for(Destination tmp:destinations) {
+		for (Destination tmp : destinations) {
 			DestinationViewBean tmpDVB = new DestinationViewBean();
 			tmpDVB.setCounty(tmp.getCounty());
 			tmpDVB.setName(tmp.getName());

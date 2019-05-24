@@ -1,5 +1,6 @@
 package com.goldentour.jee.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.goldentour.jee.entities.Accomodation;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
+import com.goldentour.jee.services.AccomodationService;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
+import com.goldentour.jee.viewBeans.AccomodationViewBeen;
 import com.goldentour.jee.viewBeans.DestinationViewBean;
 
 @RestController
@@ -28,8 +32,8 @@ public class BookingController {
 	private BookingService bookingService;
 	@Autowired
 	private DestinationService destinationServices;
-	/*@Autowired
-	private AccomodationService accomodationServices;*/
+	@Autowired
+	private AccomodationService accomodationService;
 
 
 	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
@@ -71,7 +75,7 @@ public class BookingController {
 	/**
 	 * Metodo chiamato all'invocazione della creazione di una prenotazione
 	 * 
-	 * @return la lista delle località disponibili per le prenotazioni TODO da controllare
+	 * @return la lista delle località disponibili per le prenotazioni 
 	 */
 	@RequestMapping(value = "/to/create/", method = RequestMethod.GET)
 	public ResponseEntity<List<DestinationViewBean>> AllAvaibleDestination() {
@@ -94,25 +98,23 @@ public class BookingController {
 	 * 
 	 * @param id della localit� cercata
 	 * @return Lista di strutture disponibili per la prenotazione in una determinata
-	 *         località TODO
+	 *         località
 	 */
-	/*@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.POST)
-	public ResponseEntity<List<Accomodation>> SearchAccomodationByDestination(@PathVariable("id") int id) {
+	@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<AccomodationViewBeen>> SearchAccomodationByDestination(@PathVariable("id") long id) {
 
-		List<Accomodation> accomodations;
-
+		List<AccomodationViewBeen> accomodationsList= new ArrayList<AccomodationViewBeen>();
 		try {
-			accomodations = accomodationServices.FindAccomodationByDestination(id);
-			if (accomodations.isEmpty()) {
-				return new ResponseEntity<List<Accomodation>>(HttpStatus.NO_CONTENT);
+			accomodationsList = (List<AccomodationViewBeen>) accomodationService.FindAccomodationByDestination(id);
+			if (accomodationsList.isEmpty()) {
+				return new ResponseEntity<List<AccomodationViewBeen>>(HttpStatus.NO_CONTENT);
 			}
-			return new ResponseEntity<List<Accomodation>>(accomodations, HttpStatus.OK);
-		} catch (Exception e) {
+			return new ResponseEntity<List<AccomodationViewBeen>>(accomodationsList, HttpStatus.OK);
+		} catch (Exception  e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Accomodation>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<AccomodationViewBeen>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-	}*/// end SearchAccomodationByDestination
+	}	/// end SearchAccomodationByDestination
 
 	@RequestMapping(value = "/to/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Booking> updateBooking(@PathVariable("id") int id, @RequestBody Booking booking) {
