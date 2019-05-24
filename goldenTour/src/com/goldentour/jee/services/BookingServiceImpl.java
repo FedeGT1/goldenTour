@@ -20,6 +20,7 @@ import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.Transport;
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.viewBeans.BookingViewBeen;
 
 @Service(value = "bookingService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -47,39 +48,50 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Booking createNewBooking(Long idBooking, String description, int personNumber, Date startDate, Date endDate,
+	public BookingViewBeen createNewBooking(Long idBooking, String description, int personNumber, Date startDate, Date endDate,
 			int price, Long idUser, Long idTransport, Long idDestination, Long idAccomodation,
 			Long idTourOperator) throws Exception {
 
 		Booking b = new Booking();
+		BookingViewBeen bookingVB = new BookingViewBeen();
 
 		try {
 
 			// Recupero idUser
 			User user = userDao.find(idUser);
 			b.setUser(user);
+			bookingVB.setUser(user.getLastname()+" "+user.getName());
 
 			// Recupero idTransport
 			Transport transport = transportDao.find(idTransport);
 			b.setTransport(transport);
+			bookingVB.setTransport(transport.getName());
 
 			// Recupero idDestinazione
 			Destination destination = destinationDao.find(idDestination);
 			b.setDestination(destination);
+			bookingVB.setDestination(destination.getName()+" "+destination.getCounty());
 
 			// Recupero idAccomodation
 			Accomodation accomodation = accomodationDao.find(idAccomodation);
 			b.setAccomodation(accomodation);
+			bookingVB.setAccomodation(accomodation.getName());
 
 			// Recupero idTourOperator
 			User tourOperator = userDao.find(idTourOperator);
 			b.setTourOperator(tourOperator);
+			bookingVB.setTourOperator(tourOperator.getLastname()+" "+tourOperator.getName());
 
 			b.setDescription(description);
+			bookingVB.setDescription(description);
 			b.setPersonNumber(personNumber);
+			bookingVB.setPersonNumber(""+personNumber);
 			b.setStartDate(startDate);
+			bookingVB.setStartDate(""+startDate);
 			b.setEndDate(endDate);
+			bookingVB.setStartDate(""+endDate);
 			b.setPrice(price);
+			bookingVB.setPrice(""+price);
 
 			// Creazione prenotazione
 			bookingDao.create(b);
@@ -95,7 +107,7 @@ public class BookingServiceImpl implements BookingService {
 				throw ex;
 		}
 
-		return b;
+		return bookingVB;
 	}
 
 	// @LogExecutionTime
@@ -106,8 +118,21 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public Booking find(int idBooking) {
-		return bookingDao.find(idBooking);
+	public BookingViewBeen find(long idBooking) {
+		Booking booking = bookingDao.find(idBooking);
+		BookingViewBeen bookingvb = new BookingViewBeen();
+		bookingvb.setAccomodation(""+booking.getAccomodation().getName());
+		bookingvb.setDescription(booking.getDescription());
+		bookingvb.setDestination(booking.getDestination().getName());
+		bookingvb.setEndDate(""+booking.getEndDate());
+		bookingvb.setStartDate(""+booking.getStartDate());
+		bookingvb.setId(""+booking.getId());
+		bookingvb.setPersonNumber(""+booking.getPersonNumber());
+		bookingvb.setPrice(""+booking.getPrice());
+		bookingvb.setTourOperator(booking.getTourOperator().getName());
+		bookingvb.setTransport(booking.getTransport().getName());
+		bookingvb.setUser(booking.getUser().getName());
+		return bookingvb;
 	}
 
 	@Override

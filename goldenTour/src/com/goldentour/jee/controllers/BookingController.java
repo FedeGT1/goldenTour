@@ -21,6 +21,7 @@ import com.goldentour.jee.services.AccomodationService;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
 import com.goldentour.jee.viewBeans.AccomodationViewBeen;
+import com.goldentour.jee.viewBeans.BookingViewBeen;
 import com.goldentour.jee.viewBeans.DestinationViewBean;
 
 @RestController
@@ -38,19 +39,19 @@ public class BookingController {
 
 	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
 	@RequestMapping(value = "/user/{idUser}", method = RequestMethod.GET)
-	public ResponseEntity<Booking> getBooking(@PathVariable("idUser") int idUser) {
-		Booking booking;
+	public ResponseEntity<BookingViewBeen> getBooking(@PathVariable("idUser") int idUser) {
+		BookingViewBeen booking;
 
 		try {		
 			booking = bookingService.find(idUser);
 			if (booking == null) {
 				//stampare messaggio in front "utente non ha prenotazioni"
-				return new ResponseEntity<Booking>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<BookingViewBeen>(HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<Booking>(booking, HttpStatus.OK);
+			return new ResponseEntity<BookingViewBeen>(booking, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<BookingViewBeen>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -117,30 +118,30 @@ public class BookingController {
 	}	/// end SearchAccomodationByDestination
 
 	@RequestMapping(value = "/to/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Booking> updateBooking(@PathVariable("id") int id, @RequestBody Booking booking) {
-		Booking currentBooking;
+	public ResponseEntity<BookingViewBeen> updateBooking(@PathVariable("id") int id, @RequestBody Booking booking) {
+		BookingViewBeen currentBooking;
 		try {
 			currentBooking = bookingService.find(id);
 			if (currentBooking == null) {
 				System.out.println("Booking with id" + id + "not found!");
-				return new ResponseEntity<Booking>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<BookingViewBeen>(HttpStatus.NOT_FOUND);
 			}
 
 			currentBooking.setDescription(booking.getDescription());
-			currentBooking.setStartDate(booking.getStartDate());
-			currentBooking.setEndDate(booking.getEndDate());
-			currentBooking.setAccomodation(booking.getAccomodation());
-			currentBooking.setDestination(booking.getDestination());
-			currentBooking.setTransport(booking.getTransport());
-			currentBooking.setUser(booking.getUser());
-			currentBooking.setPersonNumber(booking.getPersonNumber());
+			currentBooking.setStartDate(""+booking.getStartDate());
+			currentBooking.setEndDate(""+booking.getEndDate());
+			currentBooking.setAccomodation(""+booking.getAccomodation());
+			currentBooking.setDestination(""+booking.getDestination());
+			currentBooking.setTransport(""+booking.getTransport());
+			currentBooking.setUser(""+booking.getUser());
+			currentBooking.setPersonNumber(""+booking.getPersonNumber());
 
-			bookingService.update(currentBooking);
-			return new ResponseEntity<Booking>(currentBooking, HttpStatus.OK);
+			//bookingService.update(currentBooking);
+			return new ResponseEntity<BookingViewBeen>(currentBooking, HttpStatus.OK);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<BookingViewBeen>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
@@ -155,6 +156,13 @@ public class BookingController {
 		headers.setLocation(ucBuilder.path("/booking/id").buildAndExpand(booking.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
+	}
+	
+	@RequestMapping(value = "/to/showBooking/{id}", method = RequestMethod.GET)
+	public ResponseEntity<BookingViewBeen> showBooking(@PathVariable("id") long id){
+		BookingViewBeen booking = bookingService.find(id);
+		return new ResponseEntity<BookingViewBeen>(booking, HttpStatus.OK);
+		
 	}
 
 
