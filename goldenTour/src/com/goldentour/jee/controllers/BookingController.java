@@ -149,7 +149,7 @@ public class BookingController {
 	}
 
 
-	//----------------------------Creazione nuova prenotazione------------------------------------------------------------------------------------------------------------------------------
+	//----------------------------Creazione nuova prenotazione--------------------------------------------------------------------------------------------------------------------------------
 	
 	@RequestMapping(value = "/to/newBooking/", method = RequestMethod.POST)
 	public ResponseEntity<Void> createBooking(@RequestBody Booking booking, UriComponentsBuilder ucBuilder) {
