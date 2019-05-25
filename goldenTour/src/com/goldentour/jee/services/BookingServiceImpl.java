@@ -2,6 +2,7 @@ package com.goldentour.jee.services;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,53 +54,37 @@ public class BookingServiceImpl implements BookingService {
 	public Booking createNewBooking(Long idBooking, String description, int personNumber, Date startDate, Date endDate,
 			int price, User idUser, Transport idTransport, Destination idDestination, Accomodation idAccomodation,
 			User idTourOperator) throws Exception {
-/*
-		Booking b = new Booking();
-
-		try {
-
-			// Recupero idUser
-			User user = userDao.find(idUser);
-			b.setUser(idUser);
-
-			// Recupero idTransport
-			Transport transport = transportDao.find(idTransport);
-			b.setIdTransport(idTransport);
-
-			// Recupero idDestinazione
-			Destination destination = destinationDao.find(idDestination);
-			b.setIdDestination(idDestination);
-
-			// Recupero idAccomodation
-			Accomodation accomodation = accomodationDao.find(idAccomodation);
-			b.setIdAccomodation(idAccomodation);
-
-			// Recupero idTourOperator
-			User tourOperator = userDao.find(idTourOperator);
-			b.setTourOperator(idTourOperator);
-
-			b.setDescription(description);
-			b.setPersonNumber(personNumber);
-			b.setStartDate(startDate);
-			b.setEndDate(endDate);
-			b.setPrice(price);
-
-			// Creazione prenotazione
-			bookingDao.create(b);
-
-			try {
-				userDao.update(user);
-			} catch (Exception e) {
-				throw new Exception("Utente aggiornato ma prenotazione non effettuata.");
-			}
-
-		} catch (Exception ex) {
-			if (true)
-				throw ex;
-		}
-
-		return b;
-		*/
+		/*
+		 * Booking b = new Booking();
+		 * 
+		 * try {
+		 * 
+		 * // Recupero idUser User user = userDao.find(idUser); b.setUser(idUser);
+		 * 
+		 * // Recupero idTransport Transport transport = transportDao.find(idTransport);
+		 * b.setIdTransport(idTransport);
+		 * 
+		 * // Recupero idDestinazione Destination destination =
+		 * destinationDao.find(idDestination); b.setIdDestination(idDestination);
+		 * 
+		 * // Recupero idAccomodation Accomodation accomodation =
+		 * accomodationDao.find(idAccomodation); b.setIdAccomodation(idAccomodation);
+		 * 
+		 * // Recupero idTourOperator User tourOperator = userDao.find(idTourOperator);
+		 * b.setTourOperator(idTourOperator);
+		 * 
+		 * b.setDescription(description); b.setPersonNumber(personNumber);
+		 * b.setStartDate(startDate); b.setEndDate(endDate); b.setPrice(price);
+		 * 
+		 * // Creazione prenotazione bookingDao.create(b);
+		 * 
+		 * try { userDao.update(user); } catch (Exception e) { throw new
+		 * Exception("Utente aggiornato ma prenotazione non effettuata."); }
+		 * 
+		 * } catch (Exception ex) { if (true) throw ex; }
+		 * 
+		 * return b;
+		 */
 		return null;
 	}
 
@@ -113,50 +98,92 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public BookingViewBean find(long idBooking) {
 		Booking booking = bookingDao.find(idBooking);
-		
+
 		BookingViewBean bookingvb = new BookingViewBean();
 		bookingvb.setAccomodation(booking.getAccomodation().getName());
 		bookingvb.setDescription(booking.getDescription());
 		bookingvb.setDestination(booking.getDestination().getName());
-		bookingvb.setEndDate(""+booking.getEndDate());
-		bookingvb.setStartDate(""+booking.getStartDate());
+		bookingvb.setEndDate("" + booking.getEndDate());
+		bookingvb.setStartDate("" + booking.getStartDate());
 		bookingvb.setId(booking.getId());
 		bookingvb.setPersonNumber(booking.getPersonNumber());
 		bookingvb.setPrice(booking.getPrice());
 		bookingvb.setTourOperator(booking.getTourOperator().getName());
 		bookingvb.setTransport(booking.getTransport().getName());
 		bookingvb.setUser(booking.getUser().getName());
-		
+
 		return bookingvb;
 	}
 
 	@Override
-	public List<Booking> findAllBooking(int idUser) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BookingViewBean> findAllBooking(int idUser) {
+		List<Booking> booking = bookingDao.findBookingByUser(idUser);
+		List<BookingViewBean> bookingViewBeanList = new ArrayList<BookingViewBean>();
+		for (Booking tmp : booking) {
+			BookingViewBean bookingvb = new BookingViewBean();
+			bookingvb.setAccomodation(tmp.getAccomodation().getName());
+			bookingvb.setDescription(tmp.getDescription());
+			bookingvb.setDestination(tmp.getDestination().getName());
+			bookingvb.setEndDate("" + tmp.getEndDate());
+			bookingvb.setStartDate("" + tmp.getStartDate());
+			bookingvb.setId(tmp.getId());
+			bookingvb.setPersonNumber(tmp.getPersonNumber());
+			bookingvb.setPrice(tmp.getPrice());
+			bookingvb.setTourOperator(tmp.getTourOperator().getName());
+			bookingvb.setTransport(tmp.getTransport().getName());
+			bookingvb.setUser(tmp.getUser().getName());
+			bookingViewBeanList.add(bookingvb);
+		}
+		return bookingViewBeanList;
 	}
 
 	@Override
 	public Booking update(BookingViewBean currentBooking) throws ParseException {
 		Booking entity = bookingDao.find(currentBooking.getId());
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		entity.setEndDate(data.parse(currentBooking.getEndDate()));
 		entity.setStartDate(data.parse(currentBooking.getStartDate()));
 		entity.setPersonNumber(currentBooking.getPersonNumber());
 		entity.setPrice(currentBooking.getPrice());
-		
+
 		return bookingDao.update(entity);
-		
+
 	}
 
 	@Override
 	public void saveBooking(BookingViewBean currentBooking) {
-		/*Booking entity = null;		
-		
-		entity.setUser(user);
-		
-		bookingDao.create(currentBooking);*/
+		/*
+		 * Booking entity = null;
+		 * 
+		 * entity.setUser(user);
+		 * 
+		 * bookingDao.create(currentBooking);
+		 */
 
+	}
+
+	@Override
+	public List<BookingViewBean> findAllBookingForTourOperator(int idTourOperator) {
+		List<Booking> booking = bookingDao.findAllBookingByTourOperator(idTourOperator);
+		List<BookingViewBean> bookingViewBeanList = new ArrayList<BookingViewBean>();
+		if(booking!=null) {
+			for (Booking tmp : booking) {
+				BookingViewBean bookingvb = new BookingViewBean();
+				bookingvb.setAccomodation(tmp.getAccomodation().getName());
+				bookingvb.setDescription(tmp.getDescription());
+				bookingvb.setDestination(tmp.getDestination().getName());
+				bookingvb.setEndDate("" + tmp.getEndDate());
+				bookingvb.setStartDate("" + tmp.getStartDate());
+				bookingvb.setId(tmp.getId());
+				bookingvb.setPersonNumber(tmp.getPersonNumber());
+				bookingvb.setPrice(tmp.getPrice());
+				bookingvb.setTourOperator(tmp.getTourOperator().getName());
+				bookingvb.setTransport(tmp.getTransport().getName());
+				bookingvb.setUser(tmp.getUser().getName());
+				bookingViewBeanList.add(bookingvb);
+			}
+		}
+		return bookingViewBeanList;
 	}
 }

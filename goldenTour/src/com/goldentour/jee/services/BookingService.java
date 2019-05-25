@@ -21,7 +21,7 @@ public interface BookingService {
 
 	public List<Booking> loadAllBooking() throws Exception;
 
-	public List<Booking> findAllBooking(int idUser);
+	public List<BookingViewBean> findAllBooking(int idUser);
 
 
 	public void saveBooking(BookingViewBean currentBooking);
@@ -31,5 +31,9 @@ public interface BookingService {
 
 
 	Booking update(BookingViewBean currentBooking) throws ParseException;
+
+
+
+	public List<BookingViewBean> findAllBookingForTourOperator(int idTourOperator);
 
 }
