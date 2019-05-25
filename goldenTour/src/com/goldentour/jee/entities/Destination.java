@@ -17,7 +17,7 @@ public class Destination implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@Column(name="id_destination")
 	private Long id;
 	
 	@Column(name="name", nullable=false)

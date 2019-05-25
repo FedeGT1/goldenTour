@@ -56,12 +56,12 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@Override
 	public T update(final T t) {
-		return this.em.merge(t);
+		return (T) this.em.merge(t);
 	}
 
 	@Override
 	public List<T> findAll() {
-		return em.createQuery("SELECT t FROM " + type.getSimpleName() + "t").getResultList();
+		return (List<T>) em.createQuery("SELECT t FROM " + type.getSimpleName()+" t").getResultList();
 	}
 
 }

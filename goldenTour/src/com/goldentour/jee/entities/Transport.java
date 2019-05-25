@@ -17,11 +17,8 @@ public class Transport implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@Column(name="id_transport")
 	private Long id;
-	
-	@Column(name="id_booking", nullable=false)
-	private String idBooking;
 
 	@Column(name="name", nullable=false)
 	private String name;
@@ -32,14 +29,6 @@ public class Transport implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getIdBooking() {
-		return idBooking;
-	}
-
-	public void setIdBooking(String idBooking) {
-		this.idBooking = idBooking;
 	}
 
 	public String getName() {

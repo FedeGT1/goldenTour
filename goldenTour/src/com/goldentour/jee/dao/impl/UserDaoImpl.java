@@ -32,5 +32,19 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 			em.close();
 		}
 	}
+	
+	@Override
+	public List<User> findByNameAndLastname(String name, String lastname) {
+        List<User> users;
+        try {
+            Query q = em.createQuery("SELECT u from User u WHERE u.name=:name AND u.lastname=:lastname");
+            q.setParameter("name", name);
+            q.setParameter("lastname", lastname);
+            users = q.getResultList();
+            return users;
+        } finally {
+            em.close();
+        }
+    }
 
 }

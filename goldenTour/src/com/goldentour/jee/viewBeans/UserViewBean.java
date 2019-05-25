@@ -1,9 +1,11 @@
 package com.goldentour.jee.viewBeans;
 
+import java.util.Date;
+
 import com.goldentour.jee.entities.User;
 
 public class UserViewBean {
-    private Long id;
+    private int id;
     private String email;
     private String username;
     private String password;
@@ -11,16 +13,16 @@ public class UserViewBean {
     private String lastname;
     private String address;
     private String city;
-    private String birthday;
+    private Date birthday;
     private String birthplace;
-    private String cap;
+    private int cap;
     private String role;
 
-    public Long getId() {
+    public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -55,12 +57,12 @@ public class UserViewBean {
 	public void setCity(String city) {
 		this.city = city;
 	}
-
-	public String getBirthday() {
+	
+	public Date getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
@@ -72,11 +74,11 @@ public class UserViewBean {
 		this.birthplace = birthplace;
 	}
 
-	public String getCap() {
+	public int getCap() {
 		return cap;
 	}
 
-	public void setCap(String cap) {
+	public void setCap(int cap) {
 		this.cap = cap;
 	}
 
@@ -119,5 +121,20 @@ public class UserViewBean {
 		this.lastname=user.getLastname();
 		return this;
 	}
+	
+    public UserViewBean fromEntity(User user) {
+        this.id = user.getIduser();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.lastname = user.getLastname();
+        this.setBirthday(user.getBirthday());
+        this.address = user.getAddress();
+        this.city = user.getCity();
+        this.cap = user.getCap();
+        this.birthplace = user.getBirthplace();
+        return this;
+    }
 
 } 

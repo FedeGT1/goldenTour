@@ -1,5 +1,6 @@
 package com.goldentour.jee.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import com.goldentour.jee.services.AccomodationService;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
 import com.goldentour.jee.services.UserService;
+import com.goldentour.jee.viewBeans.AccomodationViewBeen;
+import com.goldentour.jee.viewBeans.BookingViewBean;
+import com.goldentour.jee.viewBeans.DestinationViewBean;
 
 @RestController
 @RequestMapping("/booking")
@@ -32,130 +36,114 @@ public class BookingController {
 	private BookingService bookingService;
 	@Autowired
 	private DestinationService destinationServices;
-	/*@Autowired
-	private AccomodationService accomodationServices;*/
+	@Autowired
+	private AccomodationService accomodationService;
 
 
-	//--------------Ritorna prenotazioni dell'utente selezionato----------------------------------------
-	@RequestMapping(value = "/userDao/{idUser}", method = RequestMethod.GET)
-	public ResponseEntity<Booking> getBooking(@PathVariable("idUser") int idUser) {
-		Booking booking;
+	//--------------Ritorna tutte le prenotazioni------------------------------------------------------
+	@RequestMapping(value = "/to/showAllBooking", method = RequestMethod.GET)
+	public ResponseEntity<List<Booking>> getAllBooking(@PathVariable("idUser") int idUser) {
+		List<Booking> booking;
 
 		try {		
-			booking = bookingService.find(idUser);
-			if (booking == null) {
+			booking = bookingService.findAllBooking(idUser);
+			if (booking.isEmpty()) {
 				//stampare messaggio in front "utente non ha prenotazioni"
-				return new ResponseEntity<Booking>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<Booking>(booking, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	//--------------Ritorna tutte le prenotazioni del tour operator selezionato--------------------------
-	@RequestMapping(value = "/to/{idUser}", method = RequestMethod.GET)
-	public ResponseEntity<List<Booking>> ListAllTOBooking(@PathVariable("idUser") int idUser) {
-		List<Booking> bookingList;
-
-		try {		
-			bookingList = bookingService.findAllBooking(idUser);
-			if (bookingList == null) {
-				//stampare messaggio in front "tour operator non ha prenotazioni"
 				return new ResponseEntity<List<Booking>>(HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<List<Booking>>(bookingList, HttpStatus.OK);
+			return new ResponseEntity<List<Booking>>(booking, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<Booking>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	/**
-	 * Metodo chiamato all'invocazione della creazione di una prenotazione
-	 * 
-	 * @return la lista delle localit� disponibili per le prenotazioni
-	 */
-	@RequestMapping(value = "/to/create/", method = RequestMethod.GET)
-	public ResponseEntity<List<Destination>> AllAvaibleDestination() {
-		List<Destination> destinations;
-		try {
-			destinations = destinationServices.FindAllDestination();
-			if (destinations.isEmpty()) {
-				return new ResponseEntity<List<Destination>>(HttpStatus.NO_CONTENT);
+	//--------------Ritorna tutte le prenotazioni del tour operator selezionato-----------------------
+		@RequestMapping(value = "/to/showTOBooking", method = RequestMethod.GET)
+		public ResponseEntity<List<Booking>> ListAllBooking(@PathVariable("idTourOperator") int idTourOperator) {
+			List<Booking> booking;
+		try {		
+			booking = bookingService.findAllBooking(idTourOperator);
+			if (booking.isEmpty()) {
+				//stampare messaggio in front "tour operator non ha prenotazioni"
+				return new ResponseEntity<List<Booking>>(booking, HttpStatus.OK);
 			}
-			return new ResponseEntity<List<Destination>>(destinations, HttpStatus.OK);
+			return new ResponseEntity<List<Booking>>(booking, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Destination>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<Booking>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	//--------------Ritorna tutte le destinazioni disponibili----------------------------------------- OK
+	@RequestMapping(value = "/to/showAllDestination", method = RequestMethod.GET)
+	public ResponseEntity<List<DestinationViewBean>> AllAvaibleDestination() {
+		List<DestinationViewBean> destinationsList;
+		try {
+			destinationsList = destinationServices.FindAllDestination();
+			if (destinationsList.isEmpty()) {
+				return new ResponseEntity<List<DestinationViewBean>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<DestinationViewBean>>(destinationsList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<DestinationViewBean>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		}
 
-	}// end CreateBooking
+	//---------------Ritorna tutti gli alberghi di una destinazione------------------------------------- OK
+	@RequestMapping(value = "/to/showAccomodatio/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<AccomodationViewBeen>> SearchAccomodationByDestination(@PathVariable("id") long id) {
 
-	/**
-	 * Funzione che selezionata una localit� torna le strutture disponibili.
-	 * 
-	 * @param id della localit� cercata
-	 * @return Lista di strutture disponibili per la prenotazione in una determinata
-	 *         localit�
-	 */
-	/*@RequestMapping(value = "/to/create/Accomodation/{id}", method = RequestMethod.POST)
-	public ResponseEntity<List<Accomodation>> SearchAccomodationByDestination(@PathVariable("id") int id) {
-
-		List<Accomodation> accomodations;
+		List<AccomodationViewBeen> accomodationsList= new ArrayList<AccomodationViewBeen>();
 
 		try {
-			accomodations = accomodationServices.FindAccomodationByDestination(id);
-			if (accomodations.isEmpty()) {
-				return new ResponseEntity<List<Accomodation>>(HttpStatus.NO_CONTENT);
+			accomodationsList = (List<AccomodationViewBeen>) accomodationService.FindAccomodationByDestination(id);
+			if (accomodationsList.isEmpty()) {
+				return new ResponseEntity<List<AccomodationViewBeen>>(HttpStatus.NO_CONTENT);
+
 			}
-			return new ResponseEntity<List<Accomodation>>(accomodations, HttpStatus.OK);
-		} catch (Exception e) {
+				return new ResponseEntity<List<AccomodationViewBeen>>(accomodationsList, HttpStatus.OK);
+				
+			} catch (Exception  e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Accomodation>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}*/// end SearchAccomodationByDestination
-
-	@RequestMapping(value = "/to/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Booking> updateBooking(@PathVariable("id") int id, @RequestBody Booking booking) {
-		Booking currentBooking;
-		try {
-			currentBooking = bookingService.find(id);
-			if (currentBooking == null) {
-				System.out.println("Booking with id" + id + "not found!");
-				return new ResponseEntity<Booking>(HttpStatus.NOT_FOUND);
-			}
-
-			currentBooking.setDescription(booking.getDescription());
-			currentBooking.setStartDate(booking.getStartDate());
-			currentBooking.setEndDate(booking.getEndDate());
-			currentBooking.setIdAccomodation(booking.getIdAccomodation());
-			currentBooking.setIdDestination(booking.getIdDestination());
-			currentBooking.setIdTransport(booking.getIdTransport());
-			currentBooking.setUser(booking.getUser());
-			currentBooking.setPersonNumber(booking.getPersonNumber());
-
-			bookingService.update(currentBooking);
-			return new ResponseEntity<Booking>(currentBooking, HttpStatus.OK);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Booking>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<AccomodationViewBeen>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 
+	
+	//--------------Modifica prenotazione di un utente--------------------------------------------------- OK
+
+		@RequestMapping(value = "/to/update/{idUser}", method = RequestMethod.PUT)
+		public ResponseEntity<BookingViewBean> updateBooking(@PathVariable("idUser") int idUser, @RequestBody BookingViewBean booking) {
+			try {
+				booking.setId(idUser);
+				bookingService.update(booking);
+				return new ResponseEntity<BookingViewBean>(booking, HttpStatus.OK);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<BookingViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
 
 
-	// Creazione nuova prenotazione
-	@RequestMapping(value = "/to/newBooking/", method = RequestMethod.POST)
-	public ResponseEntity<Void> createBooking(@RequestBody Booking booking, UriComponentsBuilder ucBuilder) {
-		bookingService.saveBooking(booking);
+	//------------Creazione della prenotazione---------------------------------------------------------
+	@RequestMapping(value = "/to/newBooking", method = RequestMethod.POST)
+	public ResponseEntity<Void> createBooking(@RequestBody BookingViewBean booking, UriComponentsBuilder ucBuilder) {
+		//bookingService.saveBooking(booking);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/booking/id").buildAndExpand(booking.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+
+	}
+	
+	//------------Ritorna la prenotazione dato un id--------------------------------------------------- OK
+	@RequestMapping(value = "/to/showBooking/{id}", method = RequestMethod.GET)
+	public ResponseEntity<BookingViewBean> showBooking(@PathVariable("id") long id){
+		BookingViewBean booking = bookingService.find(id);
+		return new ResponseEntity<BookingViewBean>(booking, HttpStatus.OK);
 
 	}
 

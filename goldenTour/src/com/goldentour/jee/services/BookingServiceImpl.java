@@ -1,5 +1,7 @@
 package com.goldentour.jee.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.Transport;
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.viewBeans.BookingViewBean;
 
 @Service(value = "bookingService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -50,7 +53,7 @@ public class BookingServiceImpl implements BookingService {
 	public Booking createNewBooking(Long idBooking, String description, int personNumber, Date startDate, Date endDate,
 			int price, User idUser, Transport idTransport, Destination idDestination, Accomodation idAccomodation,
 			User idTourOperator) throws Exception {
-
+/*
 		Booking b = new Booking();
 
 		try {
@@ -96,6 +99,8 @@ public class BookingServiceImpl implements BookingService {
 		}
 
 		return b;
+		*/
+		return null;
 	}
 
 	// @LogExecutionTime
@@ -106,8 +111,23 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public Booking find(int idBooking) {
-		return bookingDao.find(idBooking);
+	public BookingViewBean find(long idBooking) {
+		Booking booking = bookingDao.find(idBooking);
+		
+		BookingViewBean bookingvb = new BookingViewBean();
+		bookingvb.setAccomodation(booking.getAccomodation().getName());
+		bookingvb.setDescription(booking.getDescription());
+		bookingvb.setDestination(booking.getDestination().getName());
+		bookingvb.setEndDate(""+booking.getEndDate());
+		bookingvb.setStartDate(""+booking.getStartDate());
+		bookingvb.setId(booking.getId());
+		bookingvb.setPersonNumber(booking.getPersonNumber());
+		bookingvb.setPrice(booking.getPrice());
+		bookingvb.setTourOperator(booking.getTourOperator().getName());
+		bookingvb.setTransport(booking.getTransport().getName());
+		bookingvb.setUser(booking.getUser().getName());
+		
+		return bookingvb;
 	}
 
 	@Override
@@ -117,16 +137,26 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public void update(Booking currentBooking) {
-		// TODO Auto-generated method stub
+	public Booking update(BookingViewBean currentBooking) throws ParseException {
+		Booking entity = bookingDao.find(currentBooking.getId());
+		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd");
+		
+		entity.setEndDate(data.parse(currentBooking.getEndDate()));
+		entity.setStartDate(data.parse(currentBooking.getStartDate()));
+		entity.setPersonNumber(currentBooking.getPersonNumber());
+		entity.setPrice(currentBooking.getPrice());
+		
+		return bookingDao.update(entity);
 		
 	}
 
 	@Override
-	public void saveBooking(Booking booking) {
-		// TODO Auto-generated method stub
+	public void saveBooking(BookingViewBean currentBooking) {
+		/*Booking entity = null;		
 		
+		entity.setUser(user);
+		
+		bookingDao.create(currentBooking);*/
+
 	}
-
-
 }
