@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.goldentour.jee.dao.UserDao;
+import com.goldentour.jee.entities.Role;
 import com.goldentour.jee.entities.User;
 import com.goldentour.jee.exception.AuthenticationException;
 import com.goldentour.jee.viewBeans.UserViewBean;
@@ -22,30 +23,7 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("userDao")
 	UserDao userDao;
 
-	@Override
-	public User find(String fiscalCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveUser(User user) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public User findByFiscalCode(String fiscalCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User findByID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public UserViewBean authorize(String username, String password) throws Exception {
 
@@ -106,9 +84,19 @@ public class UserServiceImpl implements UserService {
 	        }
 	    }
 	 
+	 // CONTROLLARE PERCHE' NON ENTRA NELL IF TODO
 	    @Override
-	    public boolean register(UserViewBean currentUser){
-	    	User entity = userDao.find(currentUser.getId());
+	    public User register(UserViewBean currentUser){
+	    	User entity = new User();
+	    	Role role = new Role();
+	    	
+	    	if (currentUser.getRole() == "TourOperator") {
+	    		role.setIdRole(1l);
+	    		role.setRolename("TourOperator");
+	    	} else if (currentUser.getRole() == "User"){
+	    		role.setIdRole(2l);
+	    		role.setRolename("User");
+	    	}
 	    	
 	    	entity.setUsername(currentUser.getUsername());
 	    	entity.setPassword(currentUser.getPassword());
@@ -121,9 +109,9 @@ public class UserServiceImpl implements UserService {
 			entity.setBirthplace(currentUser.getBirthplace());
 			entity.setCap(currentUser.getCap());
 			entity.setEmail(currentUser.getEmail());
-			
+			entity.setRole(role);
 	    	
-	    	userDao.create(entity);
-	    	return true;
+	    	return userDao.create(entity);
+
 	    }
 }

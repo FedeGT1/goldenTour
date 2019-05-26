@@ -10,21 +10,13 @@ public interface UserService {
 
 	UserViewBean find(int idUser);
 
-	void saveUser(User user);
-
-	User findByFiscalCode(String fiscalCode);
-
-	User findByID();
-
 	UserViewBean authorize(String username, String password) throws Exception ;
-
-	User find(String fiscalCode);
 
 	User update(UserViewBean currentUser);
 	
 	List<UserViewBean> returnClients(String name, String lastname) throws AuthenticationException;
 	
-	boolean register(UserViewBean user);
+	User register(UserViewBean user);
 
 }
 

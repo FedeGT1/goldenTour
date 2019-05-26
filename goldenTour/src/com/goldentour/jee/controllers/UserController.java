@@ -100,15 +100,15 @@ public class UserController {
 	        return null;
 	    }
 	
-	// Creazione un nuovo utente
+	//--------------Creazione  di un nuovo utente------------------------------------------------------ OK
     @RequestMapping(value = "/to/newUser", method = RequestMethod.POST)
-    public ResponseEntity<UserViewBean> createUser(@RequestBody UserViewBean user) {
-    	UserViewBean userViewBean = new UserViewBean();
+    public ResponseEntity<UserViewBean> createUser(@RequestBody UserViewBean userViewBean) {
         try{
-            if (userService.register(user))
-            	return new ResponseEntity<>(user, HttpStatus.CREATED);
+        	User user = userService.register(userViewBean);
+            if (user != null)
+            	return new ResponseEntity<UserViewBean>(userViewBean, HttpStatus.CREATED);
         } catch (Exception e) { 
-        		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        		return new ResponseEntity<UserViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 		return null;
     }

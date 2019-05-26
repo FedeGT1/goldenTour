@@ -26,6 +26,7 @@ import com.goldentour.jee.services.UserService;
 import com.goldentour.jee.viewBeans.AccomodationViewBeen;
 import com.goldentour.jee.viewBeans.BookingViewBean;
 import com.goldentour.jee.viewBeans.DestinationViewBean;
+import com.goldentour.jee.viewBeans.UserViewBean;
 
 @RestController
 @RequestMapping("/booking")
@@ -40,38 +41,36 @@ public class BookingController {
 	private AccomodationService accomodationService;
 
 
-	//--------------Ritorna tutte le prenotazioni------------------------------------------------------
-	@RequestMapping(value = "/to/showAllBooking", method = RequestMethod.GET)
-	public ResponseEntity<List<Booking>> getAllBooking(@PathVariable("idUser") int idUser) {
-		List<Booking> booking;
+	//--------------Ritorna tutte le prenotazioni di un utente---------------------------------------------- OK
+	@RequestMapping(value = "/to/showAllBooking/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<BookingViewBean>> getAllBooking(@PathVariable("id") int idUser) {
+		List<BookingViewBean> booking;
 
 		try {		
 			booking = bookingService.findAllBooking(idUser);
 			if (booking.isEmpty()) {
-				//stampare messaggio in front "utente non ha prenotazioni"
-				return new ResponseEntity<List<Booking>>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<List<BookingViewBean>>(HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<List<Booking>>(booking, HttpStatus.OK);
+			return new ResponseEntity<List<BookingViewBean>>(booking, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Booking>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<BookingViewBean>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	//--------------Ritorna tutte le prenotazioni del tour operator selezionato-----------------------
-		@RequestMapping(value = "/to/showTOBooking", method = RequestMethod.GET)
-		public ResponseEntity<List<Booking>> ListAllBooking(@PathVariable("idTourOperator") int idTourOperator) {
-			List<Booking> booking;
+	//--------------Ritorna tutte le prenotazioni del tour operator selezionato-----------------------   OK
+	@RequestMapping(value = "/to/showTOBooking/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<BookingViewBean>> ListAllBooking(@PathVariable("id") int idTourOperator) {
+		List<BookingViewBean> booking;
 		try {		
-			booking = bookingService.findAllBooking(idTourOperator);
+			booking = bookingService.findAllBookingForTourOperator(idTourOperator);
 			if (booking.isEmpty()) {
-				//stampare messaggio in front "tour operator non ha prenotazioni"
-				return new ResponseEntity<List<Booking>>(booking, HttpStatus.OK);
+				return new ResponseEntity<List<BookingViewBean>>(HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<List<Booking>>(booking, HttpStatus.OK);
+			return new ResponseEntity<List<BookingViewBean>>(booking, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<Booking>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<BookingViewBean>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -129,14 +128,17 @@ public class BookingController {
 		}
 
 
-	//------------Creazione della prenotazione---------------------------------------------------------
+	//------------Creazione della prenotazione--------------------------------------------------------- OK
 	@RequestMapping(value = "/to/newBooking", method = RequestMethod.POST)
-	public ResponseEntity<Void> createBooking(@RequestBody BookingViewBean booking, UriComponentsBuilder ucBuilder) {
-		//bookingService.saveBooking(booking);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/booking/id").buildAndExpand(booking.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-
+	public ResponseEntity<BookingViewBean> createBooking(@RequestBody BookingViewBean currentBooking) {
+		try{
+        	Booking booking = bookingService.createNewBooking(currentBooking);
+            if (booking != null)
+            	return new ResponseEntity<BookingViewBean>(currentBooking, HttpStatus.CREATED);
+        } catch (Exception e) { 
+        		return new ResponseEntity<BookingViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+		return null;
 	}
 	
 	//------------Ritorna la prenotazione dato un id--------------------------------------------------- OK

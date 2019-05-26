@@ -42,19 +42,20 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 	}
 
 	@Override
-	public List<Booking> findAllBookingByTourOperator(User idTourOperator) {
-		List<Booking> b = null;
+	public List<Booking> findAllBookingByTourOperator(int id) {
+		List<Booking> bookings;
 		try {
-			Query q = em.createQuery(
-					"SELECT a.idBooking, a.description, a.personNumber, a.startDate, a.endDate, a.price, a.idUser FROM Booking a WHERE a.idTourOperator = :idTourOperator");
-
-			q.setParameter("idTourOperator", idTourOperator);
-			b = q.getResultList();
+			Query q = em.createQuery("SELECT b from Booking b WHERE b.tourOperator = :tourOperator_id", Booking.class);
+			q.setParameter("tourOperator_id", em.getReference(User.class, id));
+			bookings = q.getResultList();
+			if (bookings.size() != 0)
+				return bookings;
+			else
+				return null;
 
 		} finally {
 			em.close();
 		}
-		return b;
 	}
 
 	@Override
@@ -71,6 +72,22 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 			em.close();
 		}
 		return b;
+	}
+	
+	@Override
+	public List<Booking> findBookingByUser(int idUser) {
+		List<Booking> bookings;
+		try {
+			Query q = em.createQuery("SELECT b from Booking b WHERE b.user = :user_id", Booking.class);
+			q.setParameter("user_id", em.getReference(User.class, idUser));
+			bookings = q.getResultList();
+			if (bookings.size() != 0)
+				return bookings;
+			else
+				return null;
+		} finally {
+			em.close();
+		}
 	}
 
 }
