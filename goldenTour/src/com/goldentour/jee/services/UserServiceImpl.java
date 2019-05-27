@@ -91,16 +91,15 @@ public class UserServiceImpl implements UserService {
 	        }
 	    }
 	 
-	 // CONTROLLARE PERCHE' NON ENTRA NELL IF TODO
 	    @Override
 	    public User register(UserViewBean currentUser) throws AuthenticationException{
 	    	User entity = new User();
 	    	Role role = new Role();
 	    	
-	    	if (currentUser.getRole() == "TourOperator") {
+	    	if (currentUser.getRole().equals("TourOperator")) {
 	    		role.setIdRole(1l);
 	    		role.setRolename("TourOperator");
-	    	} else if (currentUser.getRole() == "User"){
+	    	} else if (currentUser.getRole().equals("User")){
 	    		role.setIdRole(2l);
 	    		role.setRolename("User");
 	    	} else {
