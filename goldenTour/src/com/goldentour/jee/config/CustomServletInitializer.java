@@ -1,5 +1,7 @@
 package com.goldentour.jee.config;
 
+import javax.servlet.Filter;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class CustomServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -19,5 +21,11 @@ public class CustomServletInitializer extends AbstractAnnotationConfigDispatcher
 	protected String[] getServletMappings() {
         return new String[] { "/" };
 	}
+	
+    @Override
+    protected Filter[] getServletFilters() {
+    	Filter [] singleton = { new CORSFilter()};
+    	return singleton;
+    }
 
 }
