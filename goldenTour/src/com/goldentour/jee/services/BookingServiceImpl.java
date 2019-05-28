@@ -24,6 +24,7 @@ import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.Role;
 import com.goldentour.jee.entities.Transport;
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.exception.BookingException;
 import com.goldentour.jee.viewBeans.BookingViewBean;
 
 @Service(value = "bookingService")
@@ -125,9 +126,10 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<BookingViewBean> findAllBooking(int idUser) {
+	public List<BookingViewBean> findAllBooking(int idUser) throws BookingException {
 		List<Booking> booking = bookingDao.findBookingByUser(idUser);
 		List<BookingViewBean> bookingViewBeanList = new ArrayList<BookingViewBean>();
+		if(booking.size()>0) {
 		for (Booking tmp : booking) {
 			BookingViewBean bookingvb = new BookingViewBean();
 			bookingvb.setAccomodation(tmp.getAccomodation().getId());
@@ -144,10 +146,15 @@ public class BookingServiceImpl implements BookingService {
 			bookingViewBeanList.add(bookingvb);
 		}
 		return bookingViewBeanList;
+		}
+		else {
+			throw new BookingException("Booking not found");
+
+		}
 	}
 
 	@Override
-	public List<BookingViewBean> findAllBookingForTourOperator(int idTourOperator) {
+	public List<BookingViewBean> findAllBookingForTourOperator(int idTourOperator) throws BookingException{
 		List<Booking> booking = bookingDao.findAllBookingByTourOperator(idTourOperator);
 		List<BookingViewBean> bookingViewBeanList = new ArrayList<BookingViewBean>();
 		if(booking!=null) {
@@ -166,8 +173,12 @@ public class BookingServiceImpl implements BookingService {
 				bookingvb.setUser(tmp.getUser().getIduser());
 				bookingViewBeanList.add(bookingvb);
 			}
+			return bookingViewBeanList;
 		}
-		return bookingViewBeanList;
+		else {
+			throw new BookingException("Booking not found");
+		}
+		
 	}
 
 }
