@@ -5,7 +5,7 @@ import java.util.Date;
 import com.goldentour.jee.entities.User;
 
 public class UserViewBean {
-    private int id;
+    private long iduser;
     private String email;
     private String username;
     private String password;
@@ -18,12 +18,12 @@ public class UserViewBean {
     private int cap;
     private String role;
 
-    public int getId() {
-		return id;
+    public long getId() {
+		return iduser;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long iduser) {
+		this.iduser = iduser;
 	}
 
 	public String getName() {
@@ -115,6 +115,7 @@ public class UserViewBean {
     }
 
 	public UserViewBean getAuthenticate(User user) {
+		this.iduser=user.getIduser();
 		this.username=user.getUsername();
 		this.role=user.getRole().getRolename();
 		this.name=user.getName();
@@ -123,7 +124,7 @@ public class UserViewBean {
 	}
 	
     public UserViewBean fromEntity(User user) {
-        this.id = user.getIduser();
+        this.iduser = user.getIduser();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
