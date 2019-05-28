@@ -8,7 +8,7 @@ import com.goldentour.jee.viewBeans.UserViewBean;
 
 public interface UserService {
 
-	UserViewBean find(int idUser);
+	UserViewBean find(long idUser);
 
 	UserViewBean authorize(String username, String password) throws Exception ;
 

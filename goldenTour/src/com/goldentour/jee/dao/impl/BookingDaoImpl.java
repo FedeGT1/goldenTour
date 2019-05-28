@@ -42,7 +42,7 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 	}
 
 	@Override
-	public List<Booking> findAllBookingByTourOperator(int id) {
+	public List<Booking> findAllBookingByTourOperator(long id) {
 		List<Booking> bookings;
 		try {
 			Query q = em.createQuery("SELECT b from Booking b WHERE b.tourOperator = :tourOperator_id", Booking.class);
@@ -75,7 +75,7 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 	}
 	
 	@Override
-	public List<Booking> findBookingByUser(int idUser) {
+	public List<Booking> findBookingByUser(long idUser) {
 		List<Booking> bookings;
 		try {
 			Query q = em.createQuery("SELECT b from Booking b WHERE b.user = :user_id", Booking.class);

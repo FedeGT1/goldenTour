@@ -8,11 +8,11 @@ public class BookingViewBean {
 	private String startDate;
 	private String endDate;
 	private double price;
-	private int user;
+	private long user;
 	private long transport;
 	private long destination;
 	private long accomodation;
-	private int tourOperator;
+	private long tourOperator;
 
 	public long getId() {
 		return id;
@@ -62,12 +62,12 @@ public class BookingViewBean {
 		this.price = price;
 	}
 
-	public int getUser() {
+	public long getUser() {
 		return user;
 	}
 
-	public void setUser(int user) {
-		this.user = user;
+	public void setUser(long l) {
+		this.user = l;
 	}
 
 	public long getTransport() {
@@ -94,11 +94,11 @@ public class BookingViewBean {
 		this.accomodation = accomodation;
 	}
 
-	public int getTourOperator() {
+	public long getTourOperator() {
 		return tourOperator;
 	}
 
-	public void setTourOperator(int tourOperator) {
+	public void setTourOperator(long tourOperator) {
 		this.tourOperator = tourOperator;
 	}
 }

@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserViewBean find(int idUser) {
+	public UserViewBean find(long idUser) {
 		User entity = userDao.find(idUser);
 		
 		UserViewBean userView = new UserViewBean();

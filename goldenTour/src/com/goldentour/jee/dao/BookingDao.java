@@ -11,9 +11,9 @@ public interface BookingDao extends GenericDao<Booking> {
 
 	Booking findBookingById(Long idBooking);
 
-	List<Booking> findBookingByUser(int idUser);
+	List<Booking> findBookingByUser(long idUser);
 
-	List<Booking> findAllBookingByTourOperator(int idTourOperator);
+	List<Booking> findAllBookingByTourOperator(long idTourOperator);
 
 	List<Booking> findAllBookingByDestination(Destination idDestination);
 	

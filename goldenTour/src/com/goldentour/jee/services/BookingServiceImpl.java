@@ -125,8 +125,13 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<BookingViewBean> findAllBooking(int idUser) {
-		List<Booking> booking = bookingDao.findBookingByUser(idUser);
+	public List<BookingViewBean> findAllBooking(long idUser) {
+		List<Booking> booking = null;
+		User user = userDao.find(idUser);
+		
+		if(user.getRole().getIdRole().equals(2)) booking = bookingDao.findBookingByUser(idUser);
+		else booking = bookingDao.findAllBookingByTourOperator(idUser);
+		
 		List<BookingViewBean> bookingViewBeanList = new ArrayList<BookingViewBean>();
 		for (Booking tmp : booking) {
 			BookingViewBean bookingvb = new BookingViewBean();
@@ -145,29 +150,4 @@ public class BookingServiceImpl implements BookingService {
 		}
 		return bookingViewBeanList;
 	}
-
-	@Override
-	public List<BookingViewBean> findAllBookingForTourOperator(int idTourOperator) {
-		List<Booking> booking = bookingDao.findAllBookingByTourOperator(idTourOperator);
-		List<BookingViewBean> bookingViewBeanList = new ArrayList<BookingViewBean>();
-		if(booking!=null) {
-			for (Booking tmp : booking) {
-				BookingViewBean bookingvb = new BookingViewBean();
-				bookingvb.setAccomodation(tmp.getAccomodation().getId());
-				bookingvb.setDescription(tmp.getDescription());
-				bookingvb.setDestination(tmp.getDestination().getId());
-				bookingvb.setEndDate("" + tmp.getEndDate());
-				bookingvb.setStartDate("" + tmp.getStartDate());
-				bookingvb.setId(tmp.getId());
-				bookingvb.setPersonNumber(tmp.getPersonNumber());
-				bookingvb.setPrice(tmp.getPrice());
-				bookingvb.setTourOperator(tmp.getTourOperator().getIduser());
-				bookingvb.setTransport(tmp.getTransport().getId());
-				bookingvb.setUser(tmp.getUser().getIduser());
-				bookingViewBeanList.add(bookingvb);
-			}
-		}
-		return bookingViewBeanList;
-	}
-
 }

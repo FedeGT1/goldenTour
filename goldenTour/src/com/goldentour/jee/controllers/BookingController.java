@@ -42,28 +42,12 @@ public class BookingController {
 
 
 	//--------------Ritorna tutte le prenotazioni di un utente---------------------------------------------- OK
-	@RequestMapping(value = "/to/showAllBooking/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<BookingViewBean>> getAllBooking(@PathVariable("id") int idUser) {
+	@RequestMapping(value = "/showAllBooking/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<BookingViewBean>> getAllBooking(@PathVariable("id") long idUser) {
 		List<BookingViewBean> booking;
 
 		try {		
 			booking = bookingService.findAllBooking(idUser);
-			if (booking.isEmpty()) {
-				return new ResponseEntity<List<BookingViewBean>>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<List<BookingViewBean>>(booking, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<List<BookingViewBean>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	//--------------Ritorna tutte le prenotazioni del tour operator selezionato-----------------------   OK
-	@RequestMapping(value = "/to/showTOBooking/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<BookingViewBean>> ListAllBooking(@PathVariable("id") int idTourOperator) {
-		List<BookingViewBean> booking;
-		try {		
-			booking = bookingService.findAllBookingForTourOperator(idTourOperator);
 			if (booking.isEmpty()) {
 				return new ResponseEntity<List<BookingViewBean>>(HttpStatus.NOT_FOUND);
 			}
