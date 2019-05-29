@@ -9,6 +9,43 @@ public class BookingViewBean {
 	private String endDate;
 	private double price;
 	private long user;
+	private String nameTO;
+	private String lastnameTO;
+	private String nameUser;
+	private String lastnameUser;
+	
+	public String getNameTO() {
+		return nameTO;
+	}
+
+	public void setNameTO(String nameTO) {
+		this.nameTO = nameTO;
+	}
+
+	public String getLastnameTO() {
+		return lastnameTO;
+	}
+
+	public void setLastnameTO(String lastnameTO) {
+		this.lastnameTO = lastnameTO;
+	}
+
+	public String getNameUser() {
+		return nameUser;
+	}
+
+	public void setNameUser(String nameUser) {
+		this.nameUser = nameUser;
+	}
+
+	public String getLastnameUser() {
+		return lastnameUser;
+	}
+
+	public void setLastnameUser(String lastnameUser) {
+		this.lastnameUser = lastnameUser;
+	}
+
 	private long transport;
 	private long destination;
 	private long accomodation;

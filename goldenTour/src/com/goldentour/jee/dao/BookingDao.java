@@ -9,8 +9,6 @@ import com.goldentour.jee.entities.User;
 
 public interface BookingDao extends GenericDao<Booking> {
 
-	Booking findBookingById(Long idBooking);
-
 	List<Booking> findBookingByUser(long idUser);
 
 	List<Booking> findAllBookingByTourOperator(long idTourOperator);

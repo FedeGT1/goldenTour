@@ -21,17 +21,6 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 	protected EntityManager em;
 
 	@Override
-	public Booking findBookingById(Long idBooking) {
-		Booking b = null;
-		try {
-			b = em.find(Booking.class, idBooking);
-		} finally {
-			em.close();
-		}
-		return b;
-	}
-
-	@Override
 	public Booking findBookingByUser(User idUser) {
 		Booking b = null;
 		try {
