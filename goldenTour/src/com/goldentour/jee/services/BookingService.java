@@ -16,16 +16,14 @@ public interface BookingService {
 
 	public Booking createNewBooking(BookingViewBean currentBooking) throws ParseException;
 	
-
-
 	public List<Booking> loadAllBooking() throws Exception;
 
 	public List<BookingViewBean> findAllBooking(int idUser) throws BookingException;
 
-	BookingViewBean find(long idBooking);
+	BookingViewBean find(long idBooking) throws BookingException;
 
 	public List<BookingViewBean> findAllBookingForTourOperator(int idTourOperator) throws BookingException;
 	
-	Booking update(BookingViewBean currentBooking) throws ParseException;
+	Booking update(BookingViewBean currentBooking) throws ParseException, BookingException;
 
 }

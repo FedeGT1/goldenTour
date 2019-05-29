@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	
 	@Override
-	public UserViewBean authorize(String username, String password) throws Exception {
+	public UserViewBean authorize(String username, String password) throws AuthenticationException {
 
 		User user = userDao.findByUsernameAndPassword(username, password);
 		if (user != null) {
@@ -37,41 +37,48 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserViewBean find(int idUser) {
+	public UserViewBean find(int idUser) throws AuthenticationException {
 		User entity = userDao.find(idUser);
+		if(entity!=null) {
+			UserViewBean userView = new UserViewBean();
+			userView.setUsername(entity.getUsername());
+			userView.setRole(entity.getRole().getRolename());
 		
-		UserViewBean userView = new UserViewBean();
-		userView.setUsername(entity.getUsername());
-		userView.setRole(entity.getRole().getRolename());
+			userView.setName(entity.getName());
+			userView.setLastname(entity.getLastname());
+			userView.setEmail(entity.getEmail());
+			userView.setAddress(entity.getAddress());
+			userView.setCity(entity.getCity());
+			userView.setBirthplace(entity.getBirthplace());
 		
-		userView.setName(entity.getName());
-		userView.setLastname(entity.getLastname());
-		userView.setEmail(entity.getEmail());
-		userView.setAddress(entity.getAddress());
-		userView.setCity(entity.getCity());
-		userView.setBirthplace(entity.getBirthplace());
-		
-		return userView;
+			return userView;
+		} else {
+			throw new AuthenticationException("User not found");
+		}
 	}
 
 	@Override
-	public User update(UserViewBean currentUser) {	
+	public User update(UserViewBean currentUser) throws AuthenticationException {	
 		User entity = userDao.find(currentUser.getId());
+		if(entity!=null) {
+			entity.setName(currentUser.getName());
+			entity.setLastname(currentUser.getLastname());
+			entity.setAddress(currentUser.getAddress());
+			entity.setEmail(currentUser.getEmail());
+			entity.setCity(currentUser.getCity());
+			entity.setBirthplace(currentUser.getBirthplace());
 		
-		entity.setName(currentUser.getName());
-		entity.setLastname(currentUser.getLastname());
-		entity.setAddress(currentUser.getAddress());
-		entity.setEmail(currentUser.getEmail());
-		entity.setCity(currentUser.getCity());
-		entity.setBirthplace(currentUser.getBirthplace());
-
-		return userDao.update(entity);	
+			return userDao.update(entity);
+		}
+		else {
+			throw new AuthenticationException("User not found");
+		}
 	}
 
 	 @Override
 	    public List<UserViewBean> returnClients(String name, String lastname) throws AuthenticationException {
 	        List<User> users = userDao.findByNameAndLastname(name, lastname);
-	        List<UserViewBean> usersVB=new ArrayList();
+	        List<UserViewBean> usersVB=new ArrayList<UserViewBean>();
 			UserViewBean userView = new UserViewBean();
 	        if (users.size() > 0) {
 	            for(int i = 0; i != users.size(); i++){
@@ -86,7 +93,7 @@ public class UserServiceImpl implements UserService {
 	 
 	 // CONTROLLARE PERCHE' NON ENTRA NELL IF TODO
 	    @Override
-	    public User register(UserViewBean currentUser){
+	    public User register(UserViewBean currentUser) throws AuthenticationException{
 	    	User entity = new User();
 	    	Role role = new Role();
 	    	
@@ -96,22 +103,21 @@ public class UserServiceImpl implements UserService {
 	    	} else if (currentUser.getRole() == "User"){
 	    		role.setIdRole(2l);
 	    		role.setRolename("User");
+	    	} else {
+				throw new AuthenticationException("Role not validate");
 	    	}
 	    	
-	    	entity.setUsername(currentUser.getUsername());
-	    	entity.setPassword(currentUser.getPassword());
-
-	    	entity.setName(currentUser.getName());
-			entity.setLastname(currentUser.getLastname());
-			entity.setAddress(currentUser.getAddress());
-			entity.setCity(currentUser.getCity());
-			entity.setBirthday(currentUser.getBirthday());
-			entity.setBirthplace(currentUser.getBirthplace());
-			entity.setCap(currentUser.getCap());
-			entity.setEmail(currentUser.getEmail());
-			entity.setRole(role);
-	    	
-	    	return userDao.create(entity);
-
+	    		entity.setUsername(currentUser.getUsername());
+	    		entity.setPassword(currentUser.getPassword());
+	    		entity.setName(currentUser.getName());
+	    		entity.setLastname(currentUser.getLastname());
+	    		entity.setAddress(currentUser.getAddress());
+	    		entity.setCity(currentUser.getCity());
+	    		entity.setBirthday(currentUser.getBirthday());
+	    		entity.setBirthplace(currentUser.getBirthplace());
+	    		entity.setCap(currentUser.getCap());
+	    		entity.setEmail(currentUser.getEmail());
+	    		entity.setRole(role);
+	    		return userDao.create(entity);
 	    }
 }

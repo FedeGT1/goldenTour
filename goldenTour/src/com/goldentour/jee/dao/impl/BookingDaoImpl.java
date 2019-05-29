@@ -12,6 +12,7 @@ import com.goldentour.jee.dao.BookingDao;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.exception.AuthenticationException;
 
 @Repository(value = "bookingDao")
 public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDao {
@@ -73,7 +74,7 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 		}
 		return b;
 	}
-	
+
 	@Override
 	public List<Booking> findBookingByUser(int idUser) {
 		List<Booking> bookings;
@@ -81,13 +82,13 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 			Query q = em.createQuery("SELECT b from Booking b WHERE b.user = :user_id", Booking.class);
 			q.setParameter("user_id", em.getReference(User.class, idUser));
 			bookings = q.getResultList();
-			if (bookings.size() != 0)
+			if (bookings.size() != 0) {
 				return bookings;
-			else
+			} else {
 				return null;
+			}
 		} finally {
 			em.close();
 		}
 	}
-
 }

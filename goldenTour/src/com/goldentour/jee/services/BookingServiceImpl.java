@@ -59,14 +59,19 @@ public class BookingServiceImpl implements BookingService {
 		
 		User user = new User();
 		user.setIduser(bookingViewBean.getUser());
+		
 		Accomodation accomodation = new Accomodation();
 		accomodation.setId(bookingViewBean.getAccomodation());
+		
 		Destination destination = new Destination();
 		destination.setId(bookingViewBean.getDestination());
+		
 		Transport transport = new Transport();
 		transport.setId(bookingViewBean.getTransport());
+		
 		User to = new User();
 		to.setIduser(bookingViewBean.getTourOperator());
+		
 		
     	booking.setDescription(bookingViewBean.getDescription());
     	booking.setPersonNumber(bookingViewBean.getPersonNumber());
@@ -79,8 +84,6 @@ public class BookingServiceImpl implements BookingService {
     	booking.setTransport(transport);
     	booking.setTourOperator(to);
     	
-
-    	
     	return bookingDao.create(booking);
 	}
 
@@ -92,36 +95,42 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public BookingViewBean find(long idBooking) {
+	public BookingViewBean find(long idBooking) throws BookingException {
 		Booking booking = bookingDao.find(idBooking);
+		if(booking!=null) {
+			BookingViewBean bookingvb = new BookingViewBean();
+			bookingvb.setAccomodation(booking.getAccomodation().getId());
+			bookingvb.setDescription(booking.getDescription());
+			bookingvb.setDestination(booking.getDestination().getId());
+			bookingvb.setEndDate(""+booking.getEndDate());
+			bookingvb.setStartDate(""+booking.getStartDate());
+			bookingvb.setId(booking.getId());
+			bookingvb.setPersonNumber(booking.getPersonNumber());
+			bookingvb.setPrice(booking.getPrice());
+			bookingvb.setTourOperator(booking.getTourOperator().getIduser());
+			bookingvb.setTransport(booking.getTransport().getId());
+			bookingvb.setUser(booking.getUser().getIduser());
 		
-		BookingViewBean bookingvb = new BookingViewBean();
-		bookingvb.setAccomodation(booking.getAccomodation().getId());
-		bookingvb.setDescription(booking.getDescription());
-		bookingvb.setDestination(booking.getDestination().getId());
-		bookingvb.setEndDate(""+booking.getEndDate());
-		bookingvb.setStartDate(""+booking.getStartDate());
-		bookingvb.setId(booking.getId());
-		bookingvb.setPersonNumber(booking.getPersonNumber());
-		bookingvb.setPrice(booking.getPrice());
-		bookingvb.setTourOperator(booking.getTourOperator().getIduser());
-		bookingvb.setTransport(booking.getTransport().getId());
-		bookingvb.setUser(booking.getUser().getIduser());
-		
-		return bookingvb;
+			return bookingvb;
+		}else {
+			throw new BookingException("Booking not found");
+		}
 	}
 
 	@Override
-	public Booking update(BookingViewBean currentBooking) throws ParseException {
+	public Booking update(BookingViewBean currentBooking) throws ParseException, BookingException {
 		Booking entity = bookingDao.find(currentBooking.getId());
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd");
+		if(entity!=null) {
+			entity.setEndDate(data.parse(currentBooking.getEndDate()));
+			entity.setStartDate(data.parse(currentBooking.getStartDate()));
+			entity.setPersonNumber(currentBooking.getPersonNumber());
+			entity.setPrice(currentBooking.getPrice());
 		
-		entity.setEndDate(data.parse(currentBooking.getEndDate()));
-		entity.setStartDate(data.parse(currentBooking.getStartDate()));
-		entity.setPersonNumber(currentBooking.getPersonNumber());
-		entity.setPrice(currentBooking.getPrice());
-		
-		return bookingDao.update(entity);
+			return bookingDao.update(entity);
+		}else {
+			throw new BookingException("Booking not modified");
+		}
 		
 	}
 

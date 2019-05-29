@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.goldentour.jee.dao.AccomodationDao;
 import com.goldentour.jee.entities.Accomodation;
+import com.goldentour.jee.exception.AccomodationException;
 import com.goldentour.jee.viewBeans.AccomodationViewBeen;
 
 @Service(value = "accomodationService")
@@ -22,13 +23,13 @@ public class AccomodationServiceImpl implements AccomodationService{
 	AccomodationDao accomodationDao;
 
 	@Override
-	public List<AccomodationViewBeen> FindAccomodationByDestination(Long id) throws Exception {
+	public List<AccomodationViewBeen> findAccomodationByDestination(Long id) throws AccomodationException {
 		List<Accomodation> accomodationsList;
 		List<AccomodationViewBeen> accomodationsUVBList= new ArrayList<AccomodationViewBeen>();
 
-
-		try {
-			accomodationsList = accomodationDao.FindAccomodationsForDestinationId(id);
+		accomodationsList = accomodationDao.FindAccomodationsForDestinationId(id);
+		
+		if(accomodationsList!=null) {
 			for(Accomodation tmp : accomodationsList) {
 				AccomodationViewBeen tmpAVB = new AccomodationViewBeen();
 				tmpAVB.setAccomodationType(tmp.getAccomodationType().getName());
@@ -40,12 +41,10 @@ public class AccomodationServiceImpl implements AccomodationService{
 				tmpAVB.setTelephone(tmp.getTelephone());
 				accomodationsUVBList.add(tmpAVB);
 			}
-		} catch (Exception e) {
-			e.fillInStackTrace();
-			throw new Exception(e+" errore nella ricerca degli alberghi");
-
+			return accomodationsUVBList;
 		}
-		return accomodationsUVBList;
+		else {
+			throw new AccomodationException("Accomodation not found");
+		}
 	}
-
 }

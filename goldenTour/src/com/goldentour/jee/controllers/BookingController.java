@@ -19,6 +19,7 @@ import com.goldentour.jee.entities.Accomodation;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.User;
+import com.goldentour.jee.exception.BookingException;
 import com.goldentour.jee.services.AccomodationService;
 import com.goldentour.jee.services.BookingService;
 import com.goldentour.jee.services.DestinationService;
@@ -31,7 +32,6 @@ import com.goldentour.jee.viewBeans.UserViewBean;
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
-
 
 	@Autowired
 	private BookingService bookingService;
@@ -60,7 +60,7 @@ public class BookingController {
 
 	//--------------Ritorna tutte le prenotazioni del tour operator selezionato-----------------------   OK
 	@RequestMapping(value = "/to/showTOBooking/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<BookingViewBean>> ListAllBooking(@PathVariable("id") int idTourOperator) {
+	public ResponseEntity<List<BookingViewBean>> listAllBooking(@PathVariable("id") int idTourOperator) {
 		List<BookingViewBean> booking;
 		try {		
 			booking = bookingService.findAllBookingForTourOperator(idTourOperator);
@@ -76,10 +76,10 @@ public class BookingController {
 
 	//--------------Ritorna tutte le destinazioni disponibili----------------------------------------- OK
 	@RequestMapping(value = "/to/showAllDestination", method = RequestMethod.GET)
-	public ResponseEntity<List<DestinationViewBean>> AllAvaibleDestination() {
+	public ResponseEntity<List<DestinationViewBean>> allAvaibleDestination() {
 		List<DestinationViewBean> destinationsList;
 		try {
-			destinationsList = destinationServices.FindAllDestination();
+			destinationsList = destinationServices.findAllDestination();
 			if (destinationsList.isEmpty()) {
 				return new ResponseEntity<List<DestinationViewBean>>(HttpStatus.NO_CONTENT);
 			}
@@ -92,12 +92,12 @@ public class BookingController {
 
 	//---------------Ritorna tutti gli alberghi di una destinazione------------------------------------- OK
 	@RequestMapping(value = "/to/showAccomodatio/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<AccomodationViewBeen>> SearchAccomodationByDestination(@PathVariable("id") long id) {
+	public ResponseEntity<List<AccomodationViewBeen>> searchAccomodationByDestination(@PathVariable("id") long id) {
 
 		List<AccomodationViewBeen> accomodationsList= new ArrayList<AccomodationViewBeen>();
 
 		try {
-			accomodationsList = (List<AccomodationViewBeen>) accomodationService.FindAccomodationByDestination(id);
+			accomodationsList = (List<AccomodationViewBeen>) accomodationService.findAccomodationByDestination(id);
 			if (accomodationsList.isEmpty()) {
 				return new ResponseEntity<List<AccomodationViewBeen>>(HttpStatus.NO_CONTENT);
 
@@ -143,10 +143,14 @@ public class BookingController {
 	
 	//------------Ritorna la prenotazione dato un id--------------------------------------------------- OK
 	@RequestMapping(value = "/to/showBooking/{id}", method = RequestMethod.GET)
-	public ResponseEntity<BookingViewBean> showBooking(@PathVariable("id") long id){
+	public ResponseEntity<BookingViewBean> showBooking(@PathVariable("id") long id) throws BookingException{
 		BookingViewBean booking = bookingService.find(id);
-		return new ResponseEntity<BookingViewBean>(booking, HttpStatus.OK);
-
+		if(booking!=null) {
+			return new ResponseEntity<BookingViewBean>(booking, HttpStatus.OK);
+		}
+		else {
+			throw new BookingException("Booking not found");
+		}
 	}
 
 

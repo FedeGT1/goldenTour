@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.goldentour.jee.dao.DestinationDao;
 import com.goldentour.jee.entities.Destination;
+import com.goldentour.jee.exception.DestinationException;
 import com.goldentour.jee.viewBeans.DestinationViewBean;
 
 @Service(value = "destinationService")
@@ -22,16 +24,20 @@ public class DestinationServiceImpl implements DestinationService {
 	DestinationDao destinationDao;
 
 	@Override
-	public List<DestinationViewBean> FindAllDestination() {
+	public List<DestinationViewBean> findAllDestination() throws DestinationException {
 		List<Destination> destinations = (List<Destination>) destinationDao.findAll();
 		List<DestinationViewBean> destinationsList = new ArrayList<DestinationViewBean>();
-		for (Destination tmp : destinations) {
-			DestinationViewBean tmpDVB = new DestinationViewBean();
-			tmpDVB.setCounty(tmp.getCounty());
-			tmpDVB.setName(tmp.getName());
-			destinationsList.add(tmpDVB);
+		if (destinations != null) {
+			for (Destination tmp : destinations) {
+				DestinationViewBean tmpDVB = new DestinationViewBean();
+				tmpDVB.setCounty(tmp.getCounty());
+				tmpDVB.setName(tmp.getName());
+				destinationsList.add(tmpDVB);
+			}
+			return destinationsList;
+		} else {
+			throw new DestinationException("Destination not found");
 		}
-		return destinationsList;
 	}
 
 }

@@ -23,10 +23,9 @@ import com.goldentour.jee.viewBeans.UserViewBean;
 @RestController
 @RequestMapping("/security")
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
-
-
 
 
 	//--------------Visualizza Anagrafica utente---------------------------------------------------------- OK
@@ -65,16 +64,10 @@ public class UserController {
 		try {
 			userViewBean = userService.authorize(userViewBean.getUsername(), userViewBean.getPassword());
 			if (userViewBean != null) return new ResponseEntity<>(userViewBean, HttpStatus.OK);
-			
-
 		} 
 		catch(AuthenticationException b) {
 		 return new ResponseEntity<>(userViewBean, HttpStatus.NOT_FOUND);
-			
-			
-			
 		}
-		
 		catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -84,7 +77,7 @@ public class UserController {
 	
 	//--------------Ricerca utente per nome e cognome-------------------------------------------------- OK
 	@RequestMapping(value = "/to/user/{name}/{lastname}", method = RequestMethod.GET)
-	    public ResponseEntity<List<UserViewBean>> SearchUser(@PathVariable("name") String name, @PathVariable("lastname") String lastname) {
+	    public ResponseEntity<List<UserViewBean>> searchUser(@PathVariable("name") String name, @PathVariable("lastname") String lastname) {
 	        List<UserViewBean> userViewBean;
 	        try {
 	            userViewBean = userService.returnClients(name, lastname);

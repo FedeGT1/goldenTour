@@ -25,7 +25,8 @@ public class AccomodationDaoImpl extends GenericDaoImpl<Accomodation> implements
 			q.setParameter("destination_id",em.getReference(Destination.class, id) );
 			 accomodations = q.getResultList();
 			 if (accomodations.size()!= 0) return accomodations;
-	            else return null;
+	            else 
+	            	return null;
 		} finally {
 			em.close();
 		}
