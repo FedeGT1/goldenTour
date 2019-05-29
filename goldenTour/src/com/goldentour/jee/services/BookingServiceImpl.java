@@ -106,6 +106,11 @@ public class BookingServiceImpl implements BookingService {
 		bookingvb.setTourOperator(booking.getTourOperator().getIduser());
 		bookingvb.setTransport(booking.getTransport().getId());
 		bookingvb.setUser(booking.getUser().getIduser());
+		bookingvb.setNameUser(booking.getUser().getName());
+		bookingvb.setLastnameUser(booking.getUser().getLastname());
+		bookingvb.setNameTO(booking.getTourOperator().getName());
+		bookingvb.setLastnameTO(booking.getTourOperator().getLastname());
+		bookingvb.setNameDestination(booking.getDestination().getName());
 		
 		return bookingvb;
 	}
@@ -154,7 +159,7 @@ public class BookingServiceImpl implements BookingService {
 			bookingvb.setLastnameUser(tmp.getUser().getLastname());
 			bookingvb.setNameTO(tmp.getTourOperator().getName());
 			bookingvb.setLastnameTO(tmp.getTourOperator().getLastname());
-			
+			bookingvb.setNameDestination(tmp.getDestination().getName());
 			
 			bookingViewBeanList.add(bookingvb);
 		}

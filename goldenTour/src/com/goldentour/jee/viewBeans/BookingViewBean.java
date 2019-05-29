@@ -9,6 +9,11 @@ public class BookingViewBean {
 	private String endDate;
 	private double price;
 	private long user;
+	private long transport;
+	private long destination;
+	private String nameDestination;
+	private long accomodation;
+	private long tourOperator;
 	private String nameTO;
 	private String lastnameTO;
 	private String nameUser;
@@ -45,11 +50,6 @@ public class BookingViewBean {
 	public void setLastnameUser(String lastnameUser) {
 		this.lastnameUser = lastnameUser;
 	}
-
-	private long transport;
-	private long destination;
-	private long accomodation;
-	private long tourOperator;
 
 	public long getId() {
 		return id;
@@ -137,5 +137,13 @@ public class BookingViewBean {
 
 	public void setTourOperator(long tourOperator) {
 		this.tourOperator = tourOperator;
+	}
+
+	public String getNameDestination() {
+		return nameDestination;
+	}
+
+	public void setNameDestination(String nameDestination) {
+		this.nameDestination = nameDestination;
 	}
 }
