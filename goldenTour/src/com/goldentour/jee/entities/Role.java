@@ -16,6 +16,8 @@ public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final long USER_ROLE_USER = 2l; 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_role")

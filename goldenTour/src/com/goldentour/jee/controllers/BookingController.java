@@ -41,7 +41,7 @@ public class BookingController {
 	private AccomodationService accomodationService;
 
 
-	//--------------Ritorna tutte le prenotazioni di un utente---------------------------------------------- OK
+	//--------------Ritorna tutte le prenotazioni di un utente o del tour operator-------------------- OK
 	@RequestMapping(value = "/showAllBooking/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<BookingViewBean>> getAllBooking(@PathVariable("id") long idUser) {
 		List<BookingViewBean> booking;
