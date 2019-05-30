@@ -40,8 +40,7 @@ public class UserServiceImpl implements UserService {
 		if (entity != null) {
 			UserViewBean userView = new UserViewBean();
 			userView.setUsername(entity.getUsername());
-			userView.setRole(entity.getRole().getRolename());
-
+			userView.setRole(entity.getRole());
 			userView.setName(entity.getName());
 			userView.setLastname(entity.getLastname());
 			userView.setEmail(entity.getEmail());
@@ -93,10 +92,10 @@ public class UserServiceImpl implements UserService {
 		User entity = new User();
 		Role role = new Role();
 
-		if (currentUser.getRole().equals("TourOperator")) {
+		if (currentUser.getRole().getRolename().equals("TourOperator")) {
 			role.setIdRole(1L);
 			role.setRolename("TourOperator");
-		} else if (currentUser.getRole().equals("User")) {
+		} else if (currentUser.getRole().getRolename().equals("User")) {
 			role.setIdRole(2L);
 			role.setRolename("User");
 		} else {

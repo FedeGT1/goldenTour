@@ -1,5 +1,7 @@
 package com.goldentour.jee.viewBeans;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.goldentour.jee.entities.Role;
 import com.goldentour.jee.entities.User;
 
 import java.util.Date;
@@ -16,7 +18,7 @@ public class UserViewBean {
     private Date birthday;
     private String birthplace;
     private int cap;
-    private String role;
+	private Role role;
 
     public long getId() {
 		return iduser;
@@ -98,11 +100,11 @@ public class UserViewBean {
         this.password = password;
     }
 
-    public String getRole() {
+	public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+	public void setRole(Role role) {
         this.role = role;
     }
 
@@ -117,7 +119,7 @@ public class UserViewBean {
 	public UserViewBean getAuthenticate(User user) {
 		this.iduser = user.getIduser();
 		this.username = user.getUsername();
-		this.role = user.getRole().getRolename();
+		this.role = user.getRole();
 		this.name = user.getName();
 		this.lastname = user.getLastname();
 		return this;
@@ -135,6 +137,7 @@ public class UserViewBean {
         this.city = user.getCity();
         this.cap = user.getCap();
         this.birthplace = user.getBirthplace();
+		this.role = user.getRole();
         return this;
     }
 

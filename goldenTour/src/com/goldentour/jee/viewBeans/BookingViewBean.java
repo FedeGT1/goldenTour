@@ -137,4 +137,6 @@ public class BookingViewBean {
     public void setTourOperator(long tourOperator) {
         this.tourOperator = tourOperator;
     }
+
+
 }

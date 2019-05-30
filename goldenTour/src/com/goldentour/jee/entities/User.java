@@ -1,11 +1,16 @@
 package com.goldentour.jee.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "user")
+@Proxy(lazy = false)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,9 +1,12 @@
 package com.goldentour.jee.entities;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Proxy(lazy = false)
 @Table(name = "role")
 public class Role implements Serializable {
 
