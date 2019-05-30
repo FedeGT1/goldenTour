@@ -1,13 +1,13 @@
 package com.goldentour.jee.services;
 
-import java.util.List;
-
 import com.goldentour.jee.entities.Transport;
+
+import java.util.List;
 
 public interface TransportService {
 
 
-	public List<Transport> FindTransportByDestination(int id);
-	
+	List<Transport> FindTransportByDestination(int id);
+
 
 }

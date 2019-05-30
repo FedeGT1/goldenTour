@@ -1,8 +1,5 @@
 package com.goldentour.jee.viewBeans;
 
-import com.goldentour.jee.entities.AccomodationType;
-import com.goldentour.jee.entities.Destination;
-
 public class AccomodationViewBeen {
 
 	private String id;
@@ -40,7 +37,7 @@ public class AccomodationViewBeen {
 	}
 
 	public void setTelephone(int telephone) {
-		this.telephone = ""+telephone;
+		this.telephone = "" + telephone;
 	}
 
 	public String getPrice() {
@@ -48,7 +45,7 @@ public class AccomodationViewBeen {
 	}
 
 	public void setPrice(int price) {
-		this.price = ""+price;
+		this.price = "" + price;
 	}
 
 	public String getAccomodationType() {
@@ -72,7 +69,7 @@ public class AccomodationViewBeen {
 	}
 
 	public void setId(Long id) {
-		this.id = ""+id;
+		this.id = "" + id;
 	}
 
 }

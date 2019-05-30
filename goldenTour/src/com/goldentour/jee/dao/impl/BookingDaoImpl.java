@@ -1,18 +1,15 @@
 package com.goldentour.jee.dao.impl;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import org.springframework.stereotype.Repository;
-
 import com.goldentour.jee.dao.BookingDao;
 import com.goldentour.jee.entities.Booking;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.entities.User;
-import com.goldentour.jee.exception.AuthenticationException;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 @Repository(value = "bookingDao")
 public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDao {
@@ -22,7 +19,7 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 
 	@Override
 	public Booking findBookingByUser(User idUser) {
-		Booking b = null;
+		Booking b;
 		try {
 			b = em.find(Booking.class, idUser);
 		} finally {
@@ -50,10 +47,10 @@ public class BookingDaoImpl extends GenericDaoImpl<Booking> implements BookingDa
 
 	@Override
 	public List<Booking> findAllBookingByDestination(Destination idDestination) {
-		List<Booking> b = null;
+		List<Booking> b;
 		try {
 			Query q = em.createQuery(
-					"SELECT a.idBooking, a.description, a.personNumber, a.startDate, a.endDate, a.price, a.idUser FROM Booking a WHERE a.idDestination = :idDestination");
+					"SELECT a.id, a.description, a.personNumber, a.startDate, a.endDate, a.price, a.user FROM Booking a WHERE a.destination = :idDestination");
 
 			q.setParameter("idDestination", idDestination);
 			b = q.getResultList();

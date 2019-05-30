@@ -1,19 +1,17 @@
 package com.goldentour.jee.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DeadlockLoserDataAccessException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.goldentour.jee.dao.DestinationDao;
 import com.goldentour.jee.entities.Destination;
 import com.goldentour.jee.exception.DestinationException;
 import com.goldentour.jee.viewBeans.DestinationViewBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service(value = "destinationService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -25,8 +23,8 @@ public class DestinationServiceImpl implements DestinationService {
 
 	@Override
 	public List<DestinationViewBean> findAllDestination() throws DestinationException {
-		List<Destination> destinations = (List<Destination>) destinationDao.findAll();
-		List<DestinationViewBean> destinationsList = new ArrayList<DestinationViewBean>();
+		List<Destination> destinations = destinationDao.findAll();
+		List<DestinationViewBean> destinationsList = new ArrayList<>();
 		if (destinations != null) {
 			for (Destination tmp : destinations) {
 				DestinationViewBean tmpDVB = new DestinationViewBean();

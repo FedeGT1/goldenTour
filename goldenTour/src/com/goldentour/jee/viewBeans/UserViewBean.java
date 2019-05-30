@@ -1,8 +1,8 @@
 package com.goldentour.jee.viewBeans;
 
-import java.util.Date;
-
 import com.goldentour.jee.entities.User;
+
+import java.util.Date;
 
 public class UserViewBean {
     private long iduser;
@@ -57,7 +57,7 @@ public class UserViewBean {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -115,15 +115,15 @@ public class UserViewBean {
     }
 
 	public UserViewBean getAuthenticate(User user) {
-		this.iduser=user.getIduser();
-		this.username=user.getUsername();
-		this.role=user.getRole().getRolename();
-		this.name=user.getName();
-		this.lastname=user.getLastname();
+		this.iduser = user.getIduser();
+		this.username = user.getUsername();
+		this.role = user.getRole().getRolename();
+		this.name = user.getName();
+		this.lastname = user.getLastname();
 		return this;
 	}
-	
-    public UserViewBean fromEntity(User user) {
+
+	public UserViewBean fromEntity(User user) {
         this.iduser = user.getIduser();
         this.username = user.getUsername();
         this.password = user.getPassword();

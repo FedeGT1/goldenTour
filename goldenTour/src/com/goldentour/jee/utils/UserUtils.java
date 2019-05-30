@@ -7,8 +7,8 @@ public class UserUtils {
     User user;
     UserViewBean userVB;
 
-    public static User toEntity(UserViewBean userVB){
-        User user=new User();
+    public static User toEntity(UserViewBean userVB) {
+        User user = new User();
         user.setIduser(userVB.getId());
         user.setUsername(userVB.getUsername());
         user.setPassword(userVB.getPassword());

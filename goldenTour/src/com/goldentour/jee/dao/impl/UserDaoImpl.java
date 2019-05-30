@@ -1,15 +1,13 @@
 package com.goldentour.jee.dao.impl;
 
-import java.util.List;
+import com.goldentour.jee.dao.UserDao;
+import com.goldentour.jee.entities.User;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.springframework.stereotype.Repository;
-
-import com.goldentour.jee.dao.UserDao;
-import com.goldentour.jee.entities.User;
+import java.util.List;
 
 @Repository(value = "userDao")
 public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
@@ -23,16 +21,16 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
 		try {
 
-			  Query q = em.createQuery("SELECT u from User u WHERE u.username=:username AND u.password=:password");
-	            q.setParameter("username", username);
-	            q.setParameter("password", password);
-	            users = q.getResultList();
-	            return users.size() > 0 ? users.get(0) : null;
+			Query q = em.createQuery("SELECT u from User u WHERE u.username=:username AND u.password=:password");
+			q.setParameter("username", username);
+			q.setParameter("password", password);
+			users = q.getResultList();
+			return users.size() > 0 ? users.get(0) : null;
 		} finally {
 			em.close();
 		}
 	}
-	
+
 	@Override
 	public List<User> findByNameAndLastname(String name, String lastname) {
         List<User> users;

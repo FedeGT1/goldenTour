@@ -1,22 +1,20 @@
 package com.goldentour.jee.dao;
 
-import java.io.Serializable;
+import javax.persistence.EntityManager;
 import java.util.List;
 
-import javax.persistence.EntityManager;
+public interface GenericDao<T> {
 
-public interface GenericDao<T>  {
-	
-	T create(T t);
-	
-	void delete(Object id);
-	
-	T find(Object id);
-	
-	T update(T t);
-	
-	EntityManager getEntityManager();
-	
-	 List<T> findAll();
-	
+    T create(T t);
+
+    void delete(Object id);
+
+    T find(Object id);
+
+    T update(T t);
+
+    EntityManager getEntityManager();
+
+    List<T> findAll();
+
 }
