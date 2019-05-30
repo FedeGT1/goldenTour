@@ -27,6 +27,7 @@ public class DestinationServiceImpl implements DestinationService {
 		List<DestinationViewBean> destinationsList = new ArrayList<DestinationViewBean>();
 		for (Destination tmp : destinations) {
 			DestinationViewBean tmpDVB = new DestinationViewBean();
+			tmpDVB.setIdDestination(tmp.getId());
 			tmpDVB.setCounty(tmp.getCounty());
 			tmpDVB.setName(tmp.getName());
 			destinationsList.add(tmpDVB);

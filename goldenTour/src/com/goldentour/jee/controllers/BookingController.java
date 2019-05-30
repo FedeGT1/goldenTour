@@ -75,7 +75,7 @@ public class BookingController {
 		}
 
 	//---------------Ritorna tutti gli alberghi di una destinazione------------------------------------- OK
-	@RequestMapping(value = "/to/showAccomodatio/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/to/showAccomodation/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<AccomodationViewBeen>> SearchAccomodationByDestination(@PathVariable("id") long id) {
 
 		List<AccomodationViewBeen> accomodationsList= new ArrayList<AccomodationViewBeen>();
@@ -118,11 +118,12 @@ public class BookingController {
 		try{
         	Booking booking = bookingService.createNewBooking(currentBooking);
             if (booking != null)
-            	return new ResponseEntity<BookingViewBean>(currentBooking, HttpStatus.CREATED);
+            	return new ResponseEntity<BookingViewBean>(currentBooking, HttpStatus.OK);
+            else return new ResponseEntity<BookingViewBean>(HttpStatus.NO_CONTENT);
+
         } catch (Exception e) { 
         		return new ResponseEntity<BookingViewBean>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-		return null;
 	}
 	
 	//------------Ritorna la prenotazione dato un id--------------------------------------------------- OK
@@ -132,6 +133,12 @@ public class BookingController {
 		return new ResponseEntity<BookingViewBean>(booking, HttpStatus.OK);
 
 	}
-
+	
+	//-----------Cancella prenotazione dato un id------------------------------------------------------ OK
+	@RequestMapping(value = "/to/deleteBooking/{id}", method = RequestMethod.GET)
+	public ResponseEntity<BookingViewBean> deleteBooking(@PathVariable("id") long id){
+		BookingViewBean booking = bookingService.delete(id);
+		return new ResponseEntity<BookingViewBean>(booking, HttpStatus.OK);
+	}
 
 }

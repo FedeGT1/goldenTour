@@ -165,4 +165,11 @@ public class BookingServiceImpl implements BookingService {
 		}
 		return bookingViewBeanList;
 	}
+	
+	@Override
+	public BookingViewBean delete(long idBooking) {
+		BookingViewBean bookingViewBean = find(idBooking);
+		bookingDao.delete(idBooking);
+		return bookingViewBean;
+	}
 }

@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 		User entity = userDao.find(idUser);
 		
 		UserViewBean userView = new UserViewBean();
+		userView.setId(entity.getIduser());
 		userView.setUsername(entity.getUsername());
 		userView.setRole(entity.getRole().getRolename());
 		

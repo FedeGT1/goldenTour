@@ -22,5 +22,7 @@ public interface BookingService {
 	BookingViewBean find(long idBooking);
 	
 	Booking update(BookingViewBean currentBooking) throws ParseException;
+	
+	BookingViewBean delete(long idBooking);
 
 }

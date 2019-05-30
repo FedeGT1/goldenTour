@@ -90,7 +90,7 @@ public class UserController {
 	        try {
 	            userViewBean = userService.returnClients(name, lastname);
 	            if (userViewBean != null)
-	                return new ResponseEntity<>(userViewBean, HttpStatus.FOUND);
+	                return new ResponseEntity<>(userViewBean, HttpStatus.OK);
 	        } catch (AuthenticationException b) {
 	            userViewBean=null;
 	            return new ResponseEntity<>(userViewBean, HttpStatus.NOT_FOUND);
